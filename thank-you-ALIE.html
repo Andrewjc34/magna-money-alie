@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Thank You | MagnaMoney</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --charcoal: #1C1C1C;
+      --charcoal-panel: rgba(29,30,32,0.95);
+      --panel-border: rgba(255,255,255,0.07);
+      --text-main: #FFFFFF;
+      --text-dim: rgba(255,255,255,0.8);
+      --text-faint: rgba(255,255,255,0.6);
+      --gold: #C6A76B;
+      --gold-shadow: rgba(198,167,107,0.3);
+      --max-width: 900px;
+      --radius-lg: 12px;
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      background:var(--charcoal);
+      font-family:"Lato", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--text-main);
+      padding:24px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .page-wrap {
+      width:100%;
+      max-width:var(--max-width);
+    }
+
+    .panel {
+      background:linear-gradient(
+        180deg,
+        rgba(29,30,32,0.95),
+        rgba(29,30,32,0.9)
+      );
+      border-radius:var(--radius-lg);
+      border:1px solid var(--panel-border);
+      box-shadow:0 16px 40px rgba(0,0,0,0.6);
+      padding:32px 24px 32px;
+      text-align:center;
+    }
+
+    /* brand header block */
+    .logo-wrap {
+      display:inline-flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:16px;
+    }
+
+    .crown-logo {
+      width:72px;
+      height:72px;
+      background-size:contain;
+      background-repeat:no-repeat;
+      background-position:center;
+      background-image:url("https://magna-money-enquiry-form.neocities.org/Magna%20Money%20logo_full_colour.png");
+      filter:drop-shadow(0 4px 12px var(--gold-shadow));
+    }
+
+    .brand-name {
+      color:var(--text-main);
+      font-weight:700;
+      font-size:18px;
+      line-height:1.2;
+      letter-spacing:0.05em;
+      margin-top:12px;
+      text-transform:uppercase;
+    }
+
+    .brand-tag {
+      color:var(--gold);
+      font-size:13px;
+      font-weight:400;
+      margin-top:6px;
+      text-align:center;
+      max-width:540px;
+    }
+
+    /* thank you message */
+    .thanks-headline {
+      font-size:20px;
+      font-weight:700;
+      color:var(--gold);
+      line-height:1.3;
+      margin:24px 0 12px;
+    }
+
+    .thanks-body {
+      color:var(--text-dim);
+      font-size:15px;
+      font-weight:300;
+      line-height:1.5;
+      max-width:620px;
+      margin:0 auto 18px;
+    }
+
+    .next-steps-box {
+      background:rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.07);
+      border-radius:6px;
+      padding:16px;
+      max-width:620px;
+      margin:0 auto;
+      text-align:left;
+    }
+
+    .next-steps-title {
+      color:var(--text-main);
+      font-size:14px;
+      font-weight:600;
+      margin:0 0 8px;
+    }
+
+    .next-steps-list {
+      margin:0;
+      padding-left:18px;
+      color:var(--text-main);
+      font-size:14px;
+      line-height:1.5;
+      font-weight:300;
+    }
+
+    .footer-line {
+      margin-top:24px;
+      font-size:13px;
+      line-height:1.4;
+      color:var(--text-faint);
+    }
+
+    .contact-block {
+      margin-top:16px;
+      font-size:14px;
+      line-height:1.5;
+      color:var(--text-main);
+      font-weight:400;
+    }
+
+    .contact-block strong {
+      color:var(--gold);
+      font-weight:700;
+    }
+
+    .contact-block .item-line {
+      margin-bottom:4px;
+    }
+
+    @media (max-width:640px){
+      .thanks-headline{
+        font-size:18px;
+      }
+      .thanks-body{
+        font-size:14px;
+      }
+      .next-steps-title{
+        font-size:13px;
+      }
+      .next-steps-list{
+        font-size:13px;
+      }
+      .contact-block{
+        font-size:13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+    <div class="panel">
+
+      <!-- brand header -->
+      <div class="logo-wrap">
+        <div class="crown-logo" aria-hidden="true"></div>
+        <div class="brand-name">MAGNAMONEY</div>
+        <div class="brand-tag">
+          The Commercial Finance Boutique – Bespoke, Collaborative &amp; Expert Funding Advisory
+        </div>
+      </div>
+
+      <!-- thank you text -->
+      <div class="thanks-headline">Thank you — we've received your information</div>
+
+      <div class="thanks-body">
+        Your details have been submitted securely.
+        I'll review everything, and come back to you quickly with next steps.
+      </div>
+
+      <div class="next-steps-box">
+        <div class="next-steps-title">What happens now?</div>
+        <ul class="next-steps-list">
+          <li>I review your information and funding requirement.</li>
+          <li>I do a preliminary identification of the most suitable lender options for your situation.</li>
+          <li>I identify the documentation and criteria each lender would require for a full application.</li>
+        </ul>
+      </div>
+
+      <div class="contact-block">
+        <div class="item-line"><strong>Questions right now?</strong></div>
+        <div class="item-line">Speak directly with Andrew Crutchley</div>
+        <div class="item-line">07377&nbsp;018&nbsp;238</div>
+        <div class="item-line">andrew.crutchley@magnamoney.co.uk</div>
+        <div class="item-line">www.magnamoney.co.uk</div>
+      </div>
+
+      <div class="footer-line">
+        Magna Money is a trading style of Sedulo Funding Solutions Ltd (10276541).
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
