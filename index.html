@@ -1,599 +1,563 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Magna Money | ALIE Form – Assets, Liabilities, Investments & Expenditure</title>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --charcoal:#1C1C1C;
-      --panelA:rgba(29,30,32,0.95);
-      --panelB:rgba(29,30,32,0.90);
-      --border:rgba(255,255,255,0.06);
-      --white:#FFF;
-      --gold:#C6A76B;
-      --gold-shadow:rgba(198,167,107,0.3);
-      --dim:rgba(255,255,255,0.82);
-      --faint:rgba(255,255,255,0.68);
-      --radius:12px;
-      --pad:22px;
-      --max:1100px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;background:var(--charcoal);color:var(--white);
-      font-family:"Lato",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-      padding:24px;display:flex;justify-content:center
-    }
-    .container{max-width:var(--max);width:100%;margin:0 auto}
-
-    /* Header (match enquiry form) */
-    .header-block{text-align:center;margin-bottom:14px}
-    .logo-wrap{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:12px}
-    .crown-logo{
-      width:72px;height:72px;background-size:contain;background-repeat:no-repeat;background-position:center;
-      background-image:url("https://magna-money-enquiry-form.neocities.org/Magna%20Money%20logo_full_colour.png");
-      filter:drop-shadow(0 4px 12px var(--gold-shadow));
-    }
-    .brand-name{color:var(--white);font-weight:700;font-size:18px;letter-spacing:.05em;margin-top:12px;text-transform:uppercase}
-    .brand-tag{color:var(--gold);font-size:13px;margin-top:6px;text-align:center;max-width:700px}
-    .doc-title{font-weight:700;font-size:20px;margin:16px 0 2px;color:var(--white)}
-    .website-line{color:var(--gold);font-weight:600;margin-top:6px;font-size:14px}
-    .intro{color:var(--white);opacity:.95;font-weight:300;margin:12px auto 18px;line-height:1.4;max-width:920px;text-align:center}
-
-    /* Panel / Form */
-    .form-panel{
-      background:linear-gradient(180deg,var(--panelA),var(--panelB));
-      border-radius:var(--radius);padding:var(--pad);
-      box-shadow:0 8px 30px rgba(0,0,0,.5);
-      border:1px solid var(--border)
-    }
-    h3.section{margin:12px 0 12px;font-size:16px;color:var(--white);font-weight:700}
-    .subtext{font-size:13px;color:var(--faint);margin-top:6px}
-    .row{display:flex;gap:16px;flex-wrap:wrap}
-    .col{flex:1 1 280px;min-width:220px}
-    label{display:block;font-weight:400;margin-bottom:8px}
-    input[type="text"],input[type="email"],input[type="tel"],input[type="number"],textarea,select{
-      width:100%;padding:10px 12px;border-radius:6px;border:1px solid rgba(198,167,107,0.18);
-      background:rgba(255,255,255,0.02);color:var(--white);font-size:15px;outline:none
-    }
-    input[type="number"]{-moz-appearance:textfield}
-    input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{ -webkit-appearance:none;margin:0}
-    textarea{min-height:110px;resize:vertical}
-    .field{margin-bottom:14px}
-    .btn{
-      background:var(--gold);color:var(--white);border:none;padding:12px 32px;border-radius:8px;
-      font-weight:700;cursor:pointer;box-shadow:0 8px 22px rgba(198,167,107,0.12);font-size:16px
-    }
-    input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px rgba(198,167,107,.10);border-color:var(--gold)}
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    hr.div{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
-    .summary{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-    .pill{padding:6px 10px;border:1px solid rgba(255,255,255,.08);border-radius:999px;background:rgba(255,255,255,.02);font-size:14px;color:var(--dim)}
-    .disclaimer,.gdpr{font-size:13px;color:var(--dim);background:rgba(255,255,255,.02);padding:12px;border-radius:6px;margin-top:8px}
-    .submit-row{display:flex;justify-content:center;margin-top:12px}
-    .right{text-align:right}
-
-    /* Rows that mimic a sheet line-for-line */
-    .line{
-      display:grid;grid-template-columns: 2fr 1fr;gap:12px;align-items:center;
-    }
-    .line label{margin:0}
-    .section-help{font-size:13px;color:var(--faint);margin:-2px 0 10px}
-
-    @media (max-width:900px){
-      .grid-4{grid-template-columns:1fr 1fr}
-    }
-    @media (max-width:640px){
-      .grid-3{grid-template-columns:1fr}
-      .grid-4{grid-template-columns:1fr}
-      .line{grid-template-columns:1fr}
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Magna Money | ALIE Form – Assets, Liabilities, Investments & Expenditure</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+ --charcoal:#1C1C1C;
+ --panelA:rgba(29,30,32,0.95);
+ --panelB:rgba(29,30,32,0.90);
+ --border:rgba(255,255,255,0.06);
+ --white:#FFF;
+ --gold:#C6A76B;
+ --gold-shadow:rgba(198,167,107,0.3);
+ --dim:rgba(255,255,255,0.82);
+ --faint:rgba(255,255,255,0.68);
+ --radius:12px;
+ --pad:22px;
+ --max:1100px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+ margin:0;background:var(--charcoal);color:var(--white);
+ font-family:"Lato",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+ padding:24px;display:flex;justify-content:center
+}
+.container{max-width:var(--max);width:100%;margin:0 auto}
+/* Header */
+.header-block{text-align:center;margin-bottom:14px}
+.logo-wrap{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:12px}
+.crown-logo{
+ width:72px;height:72px;background-size:contain;background-repeat:no-repeat;background-position:center;
+ background-image:url("https://magna-money-enquiry-form.neocities.org/Magna%20Money%20logo_full_colour.png");
+ filter:drop-shadow(0 4px 12px var(--gold-shadow));
+}
+.brand-name{color:var(--white);font-weight:700;font-size:18px;letter-spacing:.05em;margin-top:12px;text-transform:uppercase}
+.brand-tag{color:var(--gold);font-size:13px;margin-top:6px;text-align:center;max-width:700px}
+.doc-title{font-weight:700;font-size:20px;margin:16px 0 2px;color:var(--white)}
+.website-line{color:var(--gold);font-weight:600;margin-top:6px;font-size:14px}
+.intro{color:var(--white);opacity:.95;font-weight:300;margin:12px auto 18px;line-height:1.4;max-width:920px;text-align:center}
+/* Panel / Form */
+.form-panel{
+ background:linear-gradient(180deg,var(--panelA),var(--panelB));
+ border-radius:var(--radius);padding:var(--pad);
+ box-shadow:0 8px 30px rgba(0,0,0,.5);
+ border:1px solid var(--border)
+}
+h3.section{margin:12px 0 12px;font-size:16px;color:var(--white);font-weight:700}
+.subtext{font-size:13px;color:var(--faint);margin-top:6px}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.col{flex:1 1 280px;min-width:220px}
+label{display:block;font-weight:400;margin-bottom:8px}
+input[type="text"],input[type="email"],input[type="tel"],input[type="number"],textarea,select{
+ width:100%;padding:10px 12px;border-radius:6px;border:1px solid rgba(198,167,107,0.18);
+ background:rgba(255,255,255,0.02);color:var(--white);font-size:15px;outline:none
+}
+input[type="number"]{-moz-appearance:textfield}
+input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{
+ -webkit-appearance:none;margin:0}
+textarea{min-height:110px;resize:vertical}
+.field{margin-bottom:14px}
+.btn{
+ background:var(--gold);color:var(--white);border:none;padding:12px 32px;border-radius:8px;
+ font-weight:700;cursor:pointer;box-shadow:0 8px 22px rgba(198,167,107,0.12);font-size:16px
+}
+input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px rgba(198,167,107,.10);border-color:var(--gold)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+hr.div{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
+.summary{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.pill{padding:6px 10px;border:1px solid rgba(255,255,255,.08);border-radius:999px;background:rgba(255,255,255,.02);font-size:14px;color:var(--dim)}
+.disclaimer,.gdpr{font-size:13px;color:var(--dim);background:rgba(255,255,255,.02);padding:12px;border-radius:6px;margin-top:8px}
+.submit-row{display:flex;justify-content:center;margin-top:12px}
+.right{text-align:right}
+.line{display:grid;grid-template-columns: 2fr 1fr;gap:12px;align-items:center;}
+.line label{margin:0}
+.section-help{font-size:13px;color:var(--faint);margin:-2px 0 10px}
+@media (max-width:900px){.grid-4{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.grid-3{grid-template-columns:1fr}.grid-4{grid-template-columns:1fr}.line{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <div class="container" role="main">
-    <!-- Header -->
-    <div class="header-block">
-      <div class="logo-wrap">
-        <div class="crown-logo" aria-hidden="true"></div>
-        <div class="brand-name">MAGNAMONEY</div>
-        <div class="brand-tag">The Commercial Finance Boutique – Bespoke, Collaborative &amp; Expert Funding Advisory</div>
-      </div>
-      <div class="doc-title">ALIE Form – Assets, Liabilities, Investments &amp; Expenditure</div>
-      <div class="website-line">www.magnamoney.co.uk</div>
-      <div class="intro">Please complete this statement so we can assess affordability and structure funding appropriately.</div>
-    </div>
-
-    <div class="form-panel">
-     <form id="alieForm" name="Magna ALIE" method="POST"
-      action="https://usebasin.com/f/2001370b151f" novalidate autocomplete="on">
-
-        <input type="hidden" name="redirect" value="/thank-you-ALIE.html">
-
-        <!-- SECTION 1: Business & Banking -->
-        <h3 class="section">Section 1: Business &amp; Banking</h3>
-        <div class="row">
-          <div class="col field">
-            <label for="businessName">Business name</label>
-            <input id="businessName" name="Business Name" type="text" placeholder="e.g. Magna Money Ltd" required>
-          </div>
-          <div class="col field">
-            <label for="applicantNames">Name(s)</label>
-            <input id="applicantNames" name="Name(s)" type="text" placeholder="Full name(s)" required>
-          </div>
-        </div>
-        <div class="grid-3">
-          <div class="field">
-            <label for="bankName">Bank Name</label>
-            <input id="bankName" name="Bank Name" type="text" placeholder="e.g. Barclays">
-          </div>
-          <div class="field">
-            <label for="sortCode">Sort</label>
-            <input id="sortCode" name="Sort Code" type="text" placeholder="00-00-00" inputmode="numeric">
-          </div>
-          <div class="field">
-            <label for="accNo">Acc n.</label>
-            <input id="accNo" name="Account Number" type="text" placeholder="12345678" inputmode="numeric">
-          </div>
-        </div>
-
-        <hr class="div">
-
-        <!-- SECTION 2: Monthly Income -->
-        <h3 class="section">Section 2: Monthly Income</h3>
-        <div class="section-help">Household income/expenditure (excluding business commitments)</div>
-
-        <div class="field line">
-          <label for="incDrawings">Drawings</label>
-          <input id="incDrawings" name="Income - Drawings (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="incSpouse">Spouse/partner's income</label>
-          <input id="incSpouse" name="Income - Spouse/Partner (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="incChildBenefit">Child Benefit</label>
-          <input id="incChildBenefit" name="Income - Child Benefit (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="incIncomeSupport">Income Support</label>
-          <input id="incIncomeSupport" name="Income - Income Support (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="incOther">Other income (specify)</label>
-          <input id="incOther" name="Income - Other (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field">
-          <label for="incOtherSpecify">Specify here:</label>
-          <input id="incOtherSpecify" name="Income - Other - Specify" type="text" placeholder="Description of other income">
-        </div>
-
-        <div class="summary">
-          <span class="pill">Income subtotal (A): <strong id="incomeSubtotalA">£0.00</strong></span>
-          <span class="pill">Income subtotal (B): <strong id="incomeSubtotalB">£0.00</strong></span>
-          <span class="pill">Total Income (A + B): <strong id="incomeTotal">£0.00</strong></span>
-        </div>
-
-        <hr class="div">
-
-        <!-- SECTION 3: Monthly Household Expenditure (excluding business) -->
-        <h3 class="section">Section 3: Monthly Household Expenditure (excluding business)</h3>
-
-        <div class="field line">
-          <label for="expMortgageRent">Mortgage payment/rent</label>
-          <input id="expMortgageRent" name="Expenditure - Mortgage/Rent (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="expEndowment">Endowment/pension</label>
-          <input id="expEndowment" name="Expenditure - Endowment/Pension (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="expInsurance">Building/contents insurance</label>
-          <input id="expInsurance" name="Expenditure - Building/Contents Insurance (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="expLoansHP">Loans/HP commitments</label>
-          <input id="expLoansHP" name="Expenditure - Loans/HP Commitments (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="expCreditCards">Credit/store cards</label>
-          <input id="expCreditCards" name="Expenditure - Credit/Store Cards (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-
-        <div class="summary">
-          <span class="pill">Expenditure subtotal (A): <strong id="expSubtotalA">£0.00</strong></span>
-          <span class="pill">Expenditure subtotal (B): <strong id="expSubtotalB">£0.00</strong></span>
-        </div>
-
-        <!-- Extra lines exactly as requested -->
-        <div class="field line">
-          <label for="expMaintenance">Maintenance payments</label>
-          <input id="expMaintenance" name="Expenditure - Maintenance Payments (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <h3 class="section" style="margin-top:6px">Additional Household Expenditure</h3>
-        <div class="field line">
-          <label for="expCouncilWater">Council tax / water rates</label>
-          <input id="expCouncilWater" name="Expenditure - Council Tax/Water Rates (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="expFuel">Domestic fuel (gas / electric)</label>
-          <input id="expFuel" name="Expenditure - Domestic Fuel (Gas/Electric) (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="expTelephone">Telephone</label>
-          <input id="expTelephone" name="Expenditure - Telephone (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="expCarLeasing">Car leasing</label>
-          <input id="expCarLeasing" name="Expenditure - Car Leasing (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="expCarTaxIns">Car tax / insurance</label>
-          <input id="expCarTaxIns" name="Expenditure - Car Tax/Insurance (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="expFood">Food</label>
-          <input id="expFood" name="Expenditure - Food (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="expClothingLeisure">Clothing/leisure</label>
-          <input id="expClothingLeisure" name="Expenditure - Clothing/Leisure (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-        <div class="field line">
-          <label for="expOther">Other</label>
-          <input id="expOther" name="Expenditure - Other (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-        </div>
-
-        <div class="summary">
-          <span class="pill">Expenditure subtotal (E): <strong id="expSubtotalE">£0.00</strong></span>
-          <span class="pill">Total Expenditure (D + E): <strong id="expTotal">£0.00</strong></span>
-        </div>
-
-        <hr class="div">
-
-        <!-- SECTION 4: Property -->
-        <h3 class="section">Section 4: Property Details (if applicable)</h3>
-        <div class="grid-4">
-          <div class="field">
-            <label for="prop1Address">Address</label>
-            <input id="prop1Address" name="Property 1 - Address" type="text" placeholder="Address">
-          </div>
-          <div class="field">
-            <label for="prop1Lender">Lender</label>
-            <input id="prop1Lender" name="Property 1 - Lender" type="text" placeholder="Lender">
-          </div>
-          <div class="field">
-            <label for="prop1Value">Estimated value (£)</label>
-            <input id="prop1Value" name="Property 1 - Value (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-          <div class="field">
-            <label for="prop1Bal">Outstanding mortgage (£)</label>
-            <input id="prop1Bal" name="Property 1 - Mortgage Balance (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-
-          <div class="field">
-            <label for="prop2Address">Address</label>
-            <input id="prop2Address" name="Property 2 - Address" type="text" placeholder="Address">
-          </div>
-          <div class="field">
-            <label for="prop2Lender">Lender</label>
-            <input id="prop2Lender" name="Property 2 - Lender" type="text" placeholder="Lender">
-          </div>
-          <div class="field">
-            <label for="prop2Value">Estimated value (£)</label>
-            <input id="prop2Value" name="Property 2 - Value (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-          <div class="field">
-            <label for="prop2Bal">Outstanding mortgage (£)</label>
-            <input id="prop2Bal" name="Property 2 - Mortgage Balance (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-        </div>
-
-        <div class="summary">
-          <span class="pill">Total Property Value (from above): <strong id="propTotal">£0.00</strong></span>
-        </div>
-
-        <hr class="div">
-
-        <!-- SECTION 5: Assets & Investments -->
-        <h3 class="section">Section 5: Assets &amp; Investments</h3>
-        <div class="grid-3">
-          <div class="field">
-            <label for="bankSavings">Bank savings</label>
-            <input id="bankSavings" name="Bank Savings (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-          <div class="field">
-            <label for="isa">ISA</label>
-            <input id="isa" name="ISA (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-          <div class="field">
-            <label for="shares">Shares</label>
-            <input id="shares" name="Shares (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-        </div>
-        <div class="grid-2">
-          <div class="field">
-            <label for="lifePolicies">Life Policies (surrender value)</label>
-            <input id="lifePolicies" name="Life Policies (Surrender Value) (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-          <div class="field">
-            <label for="investOther">Other investments</label>
-            <input id="investOther" name="Other Investments (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-        </div>
-        <div class="summary">
-          <span class="pill">Total Investments: <strong id="investTotal">£0.00</strong></span>
-          <span class="pill">Total Assets: <strong id="assetsTotal">£0.00</strong></span>
-        </div>
-
-        <hr class="div">
-
-        <!-- SECTION 6: Liabilities & Credit -->
-        <h3 class="section">Section 6: Liabilities &amp; Credit</h3>
-        <div class="grid-3">
-          <div class="field">
-            <label for="liabMortgage">Outstanding Mortgage</label>
-            <input id="liabMortgage" name="Liability - Outstanding Mortgage (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-          <div class="field">
-            <label for="liabBankLoans">Bank Loans</label>
-            <input id="liabBankLoans" name="Liability - Bank Loans (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-          <div class="field">
-            <label for="liabHP">Hire Purchase</label>
-            <input id="liabHP" name="Liability - Hire Purchase (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-        </div>
-        <div class="grid-3">
-          <div class="field">
-            <label for="liabOtherLoans">Other Loans</label>
-            <input id="liabOtherLoans" name="Liability - Other Loans (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
-          </div>
-          <div class="field">
-            <label for="creditCardHeld">Credit card held</label>
-            <select id="creditCardHeld" name="Credit card held (Y/N)">
-              <option value="">Please choose…</option>
-              <option>Y</option>
-              <option>N</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="otherStoreCards">Other credit/store cards</label>
-            <select id="otherStoreCards" name="Other credit/store cards (Y/N)">
-              <option value="">Please choose…</option>
-              <option>Y</option>
-              <option>N</option>
-            </select>
-          </div>
-        </div>
-        <div class="summary">
-          <span class="pill">Total Liabilities: <strong id="liabTotal">£0.00</strong></span>
-        </div>
-
-        <hr class="div">
-
-        <!-- SECTION 7: Declaration -->
-        <h3 class="section">Section 7: Declaration</h3>
-        <div class="disclaimer">
-          I / We confirm that the information given above is true and accurate to the best of my/our knowledge and belief.
-        </div>
-        <div class="grid-3">
-          <div class="field">
-            <label for="signedBy">Signed (name)</label>
-            <input id="signedBy" name="Signed By" type="text" placeholder="Full name">
-          </div>
-          <div class="field">
-            <label for="signatureDate">Date</label>
-            <input id="signatureDate" name="Signature Date" type="text" placeholder="DD / MM / YYYY">
-          </div>
-          <div class="field">
-            <label for="notes">Notes (optional)</label>
-            <input id="notes" name="Notes" type="text" placeholder="Any additional info">
-          </div>
-        </div>
-<!-- ===== Signature Section (Add below Date/Notes fields) ===== -->
+<div class="container" role="main">
+<!-- Header -->
+<div class="header-block">
+ <div class="logo-wrap">
+  <div class="crown-logo" aria-hidden="true"></div>
+  <div class="brand-name">MAGNAMONEY</div>
+  <div class="brand-tag">The Commercial Finance Boutique – Bespoke, Collaborative &amp; Expert Funding Advisory</div>
+ </div>
+ <div class="doc-title">ALIE Form – Assets, Liabilities, Investments &amp; Expenditure</div>
+ <div class="website-line">www.magnamoney.co.uk</div>
+ <div class="intro">Please complete this statement so we can assess affordability and structure funding appropriately.</div>
+</div>
+<div class="form-panel">
+<form id="alieForm" name="Magna ALIE" method="POST" action="https://hooks.zapier.com/hooks/catch/25282043/uk8nava/" novalidate autocomplete="on">
+<!-- SECTION 1: Business & Banking -->
+<h3 class="section">Section 1: Business &amp; Banking</h3>
+<div class="row">
+ <div class="col field">
+  <label for="businessName">Business name</label>
+  <input id="businessName" name="Business Name" type="text" placeholder="e.g. Magna Money Ltd" required>
+ </div>
+ <div class="col field">
+  <label for="applicantNames">Name(s)</label>
+  <input id="applicantNames" name="Name(s)" type="text" placeholder="Full name(s)" required>
+ </div>
+ <div class="col field">
+  <label for="email">Email Address</label>
+  <input id="email" name="email" type="email" placeholder="client@company.com" required>
+ </div>
+</div>
 <hr class="div">
-
-<h3 class="section">Electronic Signature</h3>
+<!-- SECTION 2: Monthly Income -->
+<h3 class="section">Section 2: Monthly Income</h3>
+<div class="section-help">Household income/expenditure (excluding business commitments)</div>
+<div class="field line">
+ <label for="incDrawings">Drawings</label>
+ <input id="incDrawings" name="Income - Drawings (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="incSpouse">Spouse/partner's income</label>
+ <input id="incSpouse" name="Income - Spouse/Partner (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="incChildBenefit">Child Benefit</label>
+ <input id="incChildBenefit" name="Income - Child Benefit (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="incIncomeSupport">Income Support</label>
+ <input id="incIncomeSupport" name="Income - Income Support (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="incOther">Other income (specify)</label>
+ <input id="incOther" name="Income - Other (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
 <div class="field">
-  <label for="signaturePad">Please draw your signature below</label>
-  <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(198,167,107,0.25); border-radius: 6px; padding: 8px; position: relative;">
-    <canvas id="signaturePad" width="600" height="180" style="width:100%;background:rgba(255,255,255,0.02);border-radius:6px;cursor:crosshair;"></canvas>
-    <button type="button" id="clearSigBtn"
-      style="position:absolute;bottom:8px;right:8px;background:var(--gold);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:13px;">
-      Clear Signature
-    </button>
-  </div>
-  <input type="hidden" name="Signature Image (Base64)" id="signatureData">
+ <label for="incOtherSpecify">Specify here:</label>
+ <input id="incOtherSpecify" name="Income - Other - Specify" type="text" placeholder="Description of other income">
+</div>
+<div class="summary">
+ <span class="pill">Income subtotal (A): <strong id="incomeSubtotalA">£0.00</strong></span>
+ <span class="pill">Income subtotal (B): <strong id="incomeSubtotalB">£0.00</strong></span>
+ <span class="pill">Total Income (A + B): <strong id="incomeTotal">£0.00</strong></span>
 </div>
 
+<hr class="div">
+<!-- SECTION 3: Monthly Household Expenditure (excluding business) -->
+<h3 class="section">Section 3: Monthly Household Expenditure (excluding business)</h3>
+<div class="field line">
+ <label for="expMortgageRent">Mortgage payment/rent</label>
+ <input id="expMortgageRent" name="Expenditure - Mortgage/Rent (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="expEndowment">Endowment/pension</label>
+ <input id="expEndowment" name="Expenditure - Endowment/Pension (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="expInsurance">Building/contents insurance</label>
+ <input id="expInsurance" name="Expenditure - Building/Contents Insurance (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="expLoansHP">Loans/HP commitments</label>
+ <input id="expLoansHP" name="Expenditure - Loans/HP Commitments (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="expCreditCards">Credit/store cards</label>
+ <input id="expCreditCards" name="Expenditure - Credit/Store Cards (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="summary">
+ <span class="pill">Expenditure subtotal (A): <strong id="expSubtotalA">£0.00</strong></span>
+ <span class="pill">Expenditure subtotal (B): <strong id="expSubtotalB">£0.00</strong></span>
+</div>
+
+<div class="field line">
+ <label for="expMaintenance">Maintenance payments</label>
+ <input id="expMaintenance" name="Expenditure - Maintenance Payments (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<h3 class="section" style="margin-top:6px">Additional Household Expenditure</h3>
+<div class="field line">
+ <label for="expCouncilWater">Council tax / water rates</label>
+ <input id="expCouncilWater" name="Expenditure - Council Tax/Water Rates (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="expFuel">Domestic fuel (gas / electric)</label>
+ <input id="expFuel" name="Expenditure - Domestic Fuel (Gas/Electric) (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="expTelephone">Telephone</label>
+ <input id="expTelephone" name="Expenditure - Telephone (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="expCarLeasing">Car leasing</label>
+ <input id="expCarLeasing" name="Expenditure - Car Leasing (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="expCarTaxIns">Car tax / insurance</label>
+ <input id="expCarTaxIns" name="Expenditure - Car Tax/Insurance (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="expFood">Food</label>
+ <input id="expFood" name="Expenditure - Food (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="expClothingLeisure">Clothing/leisure</label>
+ <input id="expClothingLeisure" name="Expenditure - Clothing/Leisure (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="field line">
+ <label for="expOther">Other</label>
+ <input id="expOther" name="Expenditure - Other (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+</div>
+<div class="summary">
+ <span class="pill">Expenditure subtotal (E): <strong id="expSubtotalE">£0.00</strong></span>
+ <span class="pill">Total Expenditure (D + E): <strong id="expTotal">£0.00</strong></span>
+</div>
+
+<hr class="div">
+<!-- SECTION 4: Property Ownership (if applicable) -->
+<h3 class="section">Section 4: Property Ownership (if applicable)</h3>
+
+<!-- Property 1 -->
+<div class="grid-4">
+ <div class="field">
+  <label for="prop1Address">Address</label>
+  <input id="prop1Address" name="Property 1 - Address" type="text" placeholder="Address">
+ </div>
+ <div class="field">
+  <label for="prop1Lender">Lender (if applicable)</label>
+  <input id="prop1Lender" name="Property 1 - Lender" type="text" placeholder="Lender">
+ </div>
+ <div class="field">
+  <label for="prop1Value">Estimated value (£)</label>
+  <input id="prop1Value" name="Property 1 - Value (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+ </div>
+ <div class="field">
+  <label for="prop1Bal">Outstanding mortgage (£ if applicable)</label>
+  <input id="prop1Bal" name="Property 1 - Mortgage Balance (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+ </div>
+</div>
+
+<!-- Property 2 -->
+<div class="grid-4">
+ <div class="field">
+  <label for="prop2Address">Address</label>
+  <input id="prop2Address" name="Property 2 - Address" type="text" placeholder="Address">
+ </div>
+ <div class="field">
+  <label for="prop2Lender">Lender (if applicable)</label>
+  <input id="prop2Lender" name="Property 2 - Lender" type="text"
+  <div class="summary">
+ <span class="pill">Total Property Value (from above): <strong id="propTotal">£0.00</strong></span>
+</div>
+
+<hr class="div">
+<!-- SECTION 5: Assets & Investments -->
+<h3 class="section">Section 5: Assets &amp; Investments</h3>
+<div class="grid-3">
+ <div class="field">
+  <label for="bankSavings">Bank savings</label>
+  <input id="bankSavings" name="Bank Savings (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+ </div>
+ <div class="field">
+  <label for="isa">ISA</label>
+  <input id="isa" name="ISA (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+ </div>
+ <div class="field">
+  <label for="shares">Shares</label>
+  <input id="shares" name="Shares (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+ </div>
+</div>
+<div class="grid-2">
+ <div class="field">
+  <label for="lifePolicies">Life Policies (surrender value)</label>
+  <input id="lifePolicies" name="Life Policies (Surrender Value) (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+ </div>
+ <div class="field">
+  <label for="investOther">Other investments</label>
+  <input id="investOther" name="Other Investments (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+ </div>
+</div>
+<div class="summary">
+ <span class="pill">Total Investments: <strong id="investTotal">£0.00</strong></span>
+ <span class="pill">Total Assets: <strong id="assetsTotal">£0.00</strong></span>
+</div>
+
+<hr class="div">
+<!-- SECTION 6: Liabilities & Credit -->
+<h3 class="section">Section 6: Liabilities &amp; Credit</h3>
+<div class="grid-3">
+ <div class="field">
+  <label for="liabMortgage">Outstanding Mortgage</label>
+  <input id="liabMortgage" name="Liability - Outstanding Mortgage (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+ </div>
+ <div class="field">
+  <label for="liabBankLoans">Bank Loans</label>
+  <input id="liabBankLoans" name="Liability - Bank Loans (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+ </div>
+ <div class="field">
+  <label for="liabHP">Hire Purchase</label>
+  <input id="liabHP" name="Liability - Hire Purchase (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+ </div>
+</div>
+<div class="grid-3">
+ <div class="field">
+  <label for="liabOtherLoans">Other Loans</label>
+  <input id="liabOtherLoans" name="Liability - Other Loans (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+ </div>
+ <div class="field">
+  <label for="creditCardHeld">Credit card held</label>
+  <select id="creditCardHeld" name="Credit card held (Y/N)">
+   <option value="">Please choose…</option>
+   <option>Y</option>
+   <option>N</option>
+  </select>
+ </div>
+ <div class="field">
+  <label for="otherStoreCards">Other credit/store cards</label>
+  <select id="otherStoreCards" name="Other credit/store cards (Y/N)">
+   <option value="">Please choose…</option>
+   <option>Y</option>
+   <option>N</option>
+  </select>
+ </div>
+</div>
+<div class="summary">
+ <span class="pill">Total Liabilities: <strong id="liabTotal">£0.00</strong></span>
+</div>
+
+<hr class="div">
+<!-- SECTION 7: Declaration -->
+<h3 class="section">Section 7: Declaration</h3>
+<div class="disclaimer">
+ I / We confirm that the information given above is true and accurate to the best of my/our knowledge and belief.
+</div>
+<div class="grid-3">
+ <div class="field">
+  <label for="signedBy">Signed (name)</label>
+  <input id="signedBy" name="Signed By" type="text" placeholder="Full name">
+ </div>
+ <div class="field">
+  <label for="signatureDate">Date</label>
+  <input id="signatureDate" name="Signature Date" type="text" placeholder="DD / MM / YYYY">
+ </div>
+ <div class="field">
+  <label for="notes">Notes (optional)</label>
+  <input id="notes" name="Notes" type="text" placeholder="Any additional info">
+ </div>
+</div>
+
+<!-- Signature Pad -->
+<hr class="div">
+<h3 class="section">Electronic Signature</h3>
 <div class="field">
-  <label for="signatureDate">Date of Signature</label>
-  <input type="date" id="signatureDate" name="Signature Date (Calendar)" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(198,167,107,0.25); color: var(--white);">
+ <label for="signaturePad">Please draw your signature below</label>
+ <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(198,167,107,0.25); border-radius: 6px; padding: 8px; position: relative;">
+  <canvas id="signaturePad" width="600" height="180" style="width:100%;background:rgba(255,255,255,0.02);border-radius:6px;cursor:crosshair;"></canvas>
+  <button type="button" id="clearSigBtn" style="position:absolute;bottom:8px;right:8px;background:#C6A76B;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:13px;">Clear Signature</button>
+ </div>
+ <input type="hidden" name="Signature Image (Base64)" id="signatureData">
 </div>
 
 <script>
-  // === Final Signature Pad Logic (Mouse + Touch + Accurate Positioning) ===
-  (function() {
-    const canvas = document.getElementById('signaturePad');
-    const ctx = canvas.getContext('2d');
-    const clearBtn = document.getElementById('clearSigBtn');
-    const sigData = document.getElementById('signatureData');
-    let drawing = false;
+(function() {
+ const canvas = document.getElementById('signaturePad');
+ const ctx = canvas.getContext('2d');
+ const clearBtn = document.getElementById('clearSigBtn');
+ const sigData = document.getElementById('signatureData');
+ let drawing = false;
 
-    function resizeCanvas() {
-      const data = canvas.toDataURL();
-      canvas.width = canvas.offsetWidth;
-      canvas.height = 180;
-      const img = new Image();
-      img.src = data;
-      img.onload = () => ctx.drawImage(img, 0, 0);
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+ function resizeCanvas() {
+   const data = canvas.toDataURL();
+   canvas.width = canvas.offsetWidth;
+   canvas.height = 180;
+   const img = new Image();
+   img.src = data;
+   img.onload = () => ctx.drawImage(img, 0, 0);
+ }
 
-    function getPos(e) {
-      const rect = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      return {
-        x: (clientX - rect.left) * scaleX,
-        y: (clientY - rect.top) * scaleY
-      };
-    }
+ window.addEventListener('resize', resizeCanvas);
+ resizeCanvas();
 
-    function startDraw(e) {
-      e.preventDefault();
-      drawing = true;
-      const pos = getPos(e);
-      ctx.beginPath();
-      ctx.moveTo(pos.x, pos.y);
-    }
+ function getPos(e) {
+   const rect = canvas.getBoundingClientRect();
+   const scaleX = canvas.width / rect.width;
+   const scaleY = canvas.height / rect.height;
+   const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+   const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+   return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+ }
 
-    function draw(e) {
-      if (!drawing) return;
-      e.preventDefault();
-      const pos = getPos(e);
-      ctx.lineWidth = 2;
-      ctx.lineCap = 'round';
-      ctx.strokeStyle = '#C6A76B';
-      ctx.lineTo(pos.x, pos.y);
-      ctx.stroke();
-    }
+ function startDraw(e) {
+   e.preventDefault();
+   drawing = true;
+   const pos = getPos(e);
+   ctx.beginPath();
+   ctx.moveTo(pos.x, pos.y);
+ }
 
-    function endDraw() {
-      if (!drawing) return;
-      drawing = false;
-      sigData.value = canvas.toDataURL('image/png');
-    }
+ function draw(e) {
+   if (!drawing) return;
+   e.preventDefault();
+   const pos = getPos(e);
+   ctx.lineWidth = 2;
+   ctx.lineCap = 'round';
+   ctx.strokeStyle = '#C6A76B';
+   ctx.lineTo(pos.x, pos.y);
+   ctx.stroke();
+ }
 
-    // Mouse events
-    canvas.addEventListener('mousedown', startDraw);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', endDraw);
-    canvas.addEventListener('mouseleave', endDraw);
+ function endDraw() {
+   if (!drawing) return;
+   drawing = false;
+   sigData.value = canvas.toDataURL('image/png');
+ }
 
-    // Touch events
-    canvas.addEventListener('touchstart', startDraw, { passive: false });
-    canvas.addEventListener('touchmove', draw, { passive: false });
-    canvas.addEventListener('touchend', endDraw);
+ canvas.addEventListener('mousedown', startDraw);
+ canvas.addEventListener('mousemove', draw);
+ canvas.addEventListener('mouseup', endDraw);
+ canvas.addEventListener('mouseleave', endDraw);
 
-    // Clear button
-    clearBtn.addEventListener('click', () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      sigData.value = '';
-    });
-  })();
+ canvas.addEventListener('touchstart', startDraw, { passive: false });
+ canvas.addEventListener('touchmove', draw, { passive: false });
+ canvas.addEventListener('touchend', endDraw);
+
+ clearBtn.addEventListener('click', () => {
+   ctx.clearRect(0, 0, canvas.width, canvas.height);
+   sigData.value = '';
+ });
+})();
 </script>
 
-        <div class="gdpr"><strong>Data privacy notice</strong><div style="height:8px"></div>
-          We collect the information you provide to assess your ALIE and will process it in line with our privacy policy. By submitting this form you consent to the processing of your data for the purposes of assessing and progressing your enquiry.
-        </div>
+<div class="gdpr"><strong>Data privacy notice</strong><div style="height:8px"></div>
+We collect the information you provide to assess your ALIE and will process it in line with our privacy policy. By submitting this form you consent to the processing of your data for the purposes of assessing and progressing your enquiry.
+</div>
+<div class="submit-row">
+ <button class="btn" type="submit">Submit ALIE</button>
+</div>
 
-        <div class="submit-row">
-          <button class="btn" type="submit">Submit ALIE</button>
-        </div>
+<hr class="div">
+<!-- Overall Summary -->
+<h3 class="section">Summary</h3>
+<div
+<div class="summary">
+ <span class="pill">Total Monthly Income: <strong id="sumIncome">£0.00</strong></span>
+ <span class="pill">Total Monthly Expenditure: <strong id="sumExpend">£0.00</strong></span>
+ <span class="pill">Monthly Surplus / (Deficit): <strong id="sumSurplus">£0.00</strong></span>
+ <span class="pill">Total Assets: <strong id="sumAssets">£0.00</strong></span>
+ <span class="pill">Total Liabilities: <strong id="sumLiabs">£0.00</strong></span>
+ <span class="pill">Net Worth (Assets − Liabilities): <strong id="sumNetWorth">£0.00</strong></span>
+</div>
+</form>
+</div>
+</div>
 
-        <hr class="div">
+<script>
+// Numeric helpers and recalc logic
+const val = (id) => {
+  const el = document.getElementById(id);
+  if(!el) return 0;
+  const x = parseFloat(String(el.value).replace(/,/g,''));
+  return isNaN(x) ? 0 : x;
+};
+const fmt = (n)=> '£' + (n||0).toFixed(2);
 
-        <!-- Overall Summary -->
-        <h3 class="section">Summary</h3>
-        <div class="summary">
-          <span class="pill">Total Monthly Income: <strong id="sumIncome">£0.00</strong></span>
-          <span class="pill">Total Monthly Expenditure: <strong id="sumExpend">£0.00</strong></span>
-          <span class="pill">Monthly Surplus / (Deficit): <strong id="sumSurplus">£0.00</strong></span>
-          <span class="pill">Total Assets: <strong id="sumAssets">£0.00</strong></span>
-          <span class="pill">Total Liabilities: <strong id="sumLiabs">£0.00</strong></span>
-          <span class="pill">Net Worth (Assets − Liabilities): <strong id="sumNetWorth">£0.00</strong></span>
-        </div>
-      </form>
-    </div>
-  </div>
+function recalc(){
+  const incDraw = val('incDrawings');
+  const incSp = val('incSpouse');
+  const incOther = val('incOther');
+  const incChild = val('incChildBenefit');
+  const incSupport = val('incIncomeSupport');
+  const incomeA = incDraw + incSp + incOther;
+  const incomeB = incChild + incSupport;
+  const incomeTotal = incomeA + incomeB
+  document.getElementById('incomeSubtotalA').textContent = fmt(incomeA);
+  document.getElementById('incomeSubtotalB').textContent = fmt(incomeB);
+  document.getElementById('incomeTotal').textContent = fmt(incomeTotal);
 
-  <script>
-    // Numeric helpers
-    const val = (id) => {
-      const el = document.getElementById(id);
-      if(!el) return 0;
-      const x = parseFloat(String(el.value).replace(/,/g,''));
-      return isNaN(x) ? 0 : x;
-    };
-    const fmt = (n)=> '£' + (n||0).toFixed(2);
+  const expA = val('expMortgageRent') + val('expEndowment') + val('expInsurance') + val('expLoansHP') + val('expCreditCards');
+  document.getElementById('expSubtotalA').textContent = fmt(expA);
+  const expB = expA;
+  document.getElementById('expSubtotalB').textContent = fmt(expB);
+  const expE = val('expMaintenance') + val('expCouncilWater') + val('expFuel') + val('expTelephone') + val('expCarLeasing') + val('expCarTaxIns') + val('expFood') + val('expClothingLeisure') + val('expOther');
+  document.getElementById('expSubtotalE').textContent = fmt(expE);
+  const expTotal = expB + expE;
+  document.getElementById('expTotal').textContent = fmt(expTotal);
 
-    function recalc(){
-      // Income A (base): Drawings + Spouse + Other (treat Child Benefit & Income Support as B if you want to mirror sheet split)
-      const incDraw = val('incDrawings');
-      const incSp = val('incSpouse');
-      const incOther = val('incOther');
+  const propTot = val('prop1Value') + val('prop2Value');
+  document.getElementById('propTotal').textContent = fmt(propTot);
 
-      // Income B (benefits):
-      const incChild = val('incChildBenefit');
-      const incSupport = val('incIncomeSupport');
+  const investTotal = val('bankSavings') + val('isa') + val('shares') + val('lifePolicies') + val('investOther');
+  document.getElementById('investTotal').textContent = fmt(investTotal);
+  const assetsTotal = propTot + investTotal;
+  document.getElementById('assetsTotal').textContent = fmt(assetsTotal);
 
-      const incomeA = incDraw + incSp + incOther;
-      const incomeB = incChild + incSupport;
-      const incomeTotal = incomeA + incomeB;
+  const liabTotal = val('liabMortgage') + val('liabBankLoans') + val('liabHP') + val('liabOtherLoans');
+  document.getElementById('liabTotal').textContent = fmt(liabTotal);
 
-      document.getElementById('incomeSubtotalA').textContent = fmt(incomeA);
-      document.getElementById('incomeSubtotalB').textContent = fmt(incomeB);
-      document.getElementById('incomeTotal').textContent = fmt(incomeTotal);
+  document.getElementById('sumIncome').textContent = fmt(incomeTotal);
+  document.getElementById('sumExpend').textContent = fmt(expTotal);
+  document.getElementById('sumSurplus').textContent = fmt(incomeTotal - expTotal);
+  document.getElementById('sumAssets').textContent = fmt(assetsTotal);
+  document.getElementById('sumLiabs').textContent = fmt(liabTotal);
+  document.getElementById('sumNetWorth').textContent = fmt(assetsTotal - liabTotal);
+}
 
-      // Expenditure subtotals (A/B/E groupings to mirror sheet headings)
-      const expA = val('expMortgageRent') + val('expEndowment') + val('expInsurance') + val('expLoansHP') + val('expCreditCards');
-      document.getElementById('expSubtotalA').textContent = fmt(expA);
+document.addEventListener('input', (e)=>{
+  if(e.target.matches('input[type="number"]')) recalc();
+});
+document.addEventListener('DOMContentLoaded', recalc);
 
-      // B was used in the sheet as a midway subtotal around credit/store cards – we’ll compute but it equals A here
-      const expB = expA;
-      document.getElementById('expSubtotalB').textContent = fmt(expB);
+// Updated form submission handler for HubSpot integration
+document.getElementById('alieForm').addEventListener('submit', function(e){
+  // Let the form submit to webhook first, then redirect
+  
+  try {
+    var contactName = (document.getElementById('applicantNames')?.value) || '';
+    var emailField = document.getElementById('email');
+    var emailVal = emailField ? emailField.value : '';
+    var firstName = '';
+    var lastName = '';
+    var nameParts = contactName.trim().split(/\s+/);
+    if (nameParts.length === 1) { firstName = nameParts[0]; }
+    else if (nameParts.length > 1) { firstName = nameParts.shift(); lastName = nameParts.join(' '); }
 
-      // E (additional household)
-      const expE = val('expMaintenance') + val('expCouncilWater') + val('expFuel') + val('expTelephone')
-                 + val('expCarLeasing') + val('expCarTaxIns') + val('expFood')
-                 + val('expClothingLeisure') + val('expOther');
-      document.getElementById('expSubtotalE').textContent = fmt(expE);
+    // Add hidden name fields before submission
+    var hiddenFirst = document.createElement('input');
+    hiddenFirst.type = 'hidden';
+    hiddenFirst.name = 'first_name';
+    hiddenFirst.value = firstName;
+    this.appendChild(hiddenFirst);
 
-      const expTotal = expB + expE;
-      document.getElementById('expTotal').textContent = fmt(expTotal);
+    var hiddenLast = document.createElement('input');
+    hiddenLast.type = 'hidden';
+    hiddenLast.name = 'last_name';
+    hiddenLast.value = lastName;
+    this.appendChild(hiddenLast);
 
-      // Properties total value
-      const propTot = val('prop1Value') + val('prop2Value');
-      document.getElementById('propTotal').textContent = fmt(propTot);
+    // Redirect to thank you page after 1 second
+    var THANKYOU = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
+    var qs = [];
+    if (firstName) qs.push('firstname=' + encodeURIComponent(firstName));
+    if (lastName) qs.push('lastname=' + encodeURIComponent(lastName));
+    if (emailVal) qs.push('email=' + encodeURIComponent(emailVal));
+    var redirectUrl = THANKYOU + (qs.length ? ('?' + qs.join('&')) : '');
 
-      // Investments / Assets
-      const investTotal = val('bankSavings') + val('isa') + val('shares') + val('lifePolicies') + val('investOther');
-      document.getElementById('investTotal').textContent = fmt(investTotal);
-      const assetsTotal = propTot + investTotal;
-      document.getElementById('assetsTotal').textContent = fmt(assetsTotal);
+    setTimeout(function(){ window.location.href = redirectUrl; }, 1000);
+  } catch (err) {
+    console.warn('Redirect failed, forcing thank-you page:', err);
+    window.location.href = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
+  }
+});
+</script>
 
-      // Liabilities
-      const liabTotal = val('liabMortgage') + val('liabBankLoans') + val('liabHP') + val('liabOtherLoans');
-      document.getElementById('liabTotal').textContent = fmt(liabTotal);
+<!-- HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/8402236.js"></script>
+<!-- End of HubSpot Embed Code -->
 
-      // Overall summary
-      document.getElementById('sumIncome').textContent = fmt(incomeTotal);
-      document.getElementById('sumExpend').textContent = fmt(expTotal);
-      document.getElementById('sumSurplus').textContent = fmt(incomeTotal - expTotal);
-      document.getElementById('sumAssets').textContent = fmt(assetsTotal);
-      document.getElementById('sumLiabs').textContent = fmt(liabTotal);
-      document.getElementById('sumNetWorth').textContent = fmt(assetsTotal - liabTotal);
-    }
-
-    document.addEventListener('input', (e)=>{
-      if(e.target.matches('input[type="number"]')) recalc();
-    });
-    document.addEventListener('DOMContentLoaded', recalc);
-
-    // Soft validation example (left inactive to avoid blocking)
-    document.getElementById('alieForm').addEventListener('submit', function(e){
-      // If you ever want to enforce at least one figure, flip this to true and add checks.
-    });
-  </script>
 </body>
 </html>
