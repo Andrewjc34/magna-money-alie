@@ -404,7 +404,7 @@ We collect the information you provide to assess your ALIE and will process it i
 </div>
 
 <script>
-// Numeric helpers and recalc logic
+// Numeric helpers and calculation logic
 const val = (id) => {
   const el = document.getElementById(id);
   if(!el) return 0;
@@ -534,10 +534,8 @@ document.addEventListener('DOMContentLoaded', recalc);
  });
 })();
 
-// Form submission handler - FIXED VERSION
+// Form submission handler - UPDATED to capture calculated totals
 document.getElementById('alieForm').addEventListener('submit', function(e){
- e.preventDefault(); // Prevent default form submission initially
- 
  try {
   var contactName = (document.getElementById('applicantNames')?.value) || '';
   var emailField = document.getElementById('email');
@@ -561,7 +559,33 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   hiddenLast.value = lastName;
   this.appendChild(hiddenLast);
 
-  // Build redirect URL
+  // CAPTURE CALCULATED TOTALS
+  var totalIncome = document.getElementById('incomeTotal')?.textContent || '£0.00';
+  var totalExpenditure = document.getElementById('expTotal')?.textContent || '£0.00';
+  var monthlySurplus = document.getElementById('sumSurplus')?.textContent || '£0.00';
+  var totalAssets = document.getElementById('assetsTotal')?.textContent || '£0.00';
+  var totalLiabilities = document.getElementById('liabTotal')?.textContent || '£0.00';
+  var netWorth = document.getElementById('sumNetWorth')?.textContent || '£0.00';
+
+  // Add calculated totals as hidden fields
+  var fields = [
+   {name: 'Total Monthly Income', value: totalIncome},
+   {name: 'Total Monthly Expenditure', value: totalExpenditure}, 
+   {name: 'Monthly Surplus/Deficit', value: monthlySurplus},
+   {name: 'Total Assets', value: totalAssets},
+   {name: 'Total Liabilities', value: totalLiabilities},
+   {name: 'Net Worth', value: netWorth}
+  ];
+
+  fields.forEach(function(field) {
+   var hiddenField = document.createElement('input');
+   hiddenField.type = 'hidden';
+   hiddenField.name = field.name;
+   hiddenField.value = field.value;
+   this.appendChild(hiddenField);
+  }.bind(this));
+
+  // Redirect to thank you page after form submission
   var THANKYOU = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
   var qs = [];
   if (firstName) qs.push('firstname=' + encodeURIComponent(firstName));
@@ -569,19 +593,7 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   if (emailVal) qs.push('email=' + encodeURIComponent(emailVal));
   var redirectUrl = THANKYOU + (qs.length ? ('?' + qs.join('&')) : '');
 
-  // Submit form data to webhook via fetch
-  var formData = new FormData(this);
-  fetch(this.action, {
-   method: 'POST',
-   body: formData
-  }).then(function() {
-   // Redirect after successful submission
-   window.location.href = redirectUrl;
-  }).catch(function(err) {
-   console.warn('Form submission failed, redirecting anyway:', err);
-   window.location.href = redirectUrl;
-  });
-
+  setTimeout(function(){ window.location.href = redirectUrl; }, 1000);
  } catch (err) {
   console.warn('Form processing failed:', err);
   window.location.href = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
