@@ -534,8 +534,10 @@ document.addEventListener('DOMContentLoaded', recalc);
  });
 })();
 
-// Form submission handler - CAPTURES TOTALS AND REDIRECTS TO THANK YOU PAGE
+// Form submission handler - FIXED to ensure client redirect works
 document.getElementById('alieForm').addEventListener('submit', function(e){
+ e.preventDefault(); // Prevent default form submission first
+ 
  try {
   var contactName = (document.getElementById('applicantNames')?.value) || '';
   var emailField = document.getElementById('email');
@@ -585,7 +587,7 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
    this.appendChild(hiddenField);
   }.bind(this));
 
-  // REDIRECT TO THANK YOU PAGE - Client will see this after 1.5 seconds
+  // FIRST: Redirect client immediately - NO DELAYS
   var THANKYOU = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
   var qs = [];
   if (firstName) qs.push('firstname=' + encodeURIComponent(firstName));
@@ -593,17 +595,22 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   if (emailVal) qs.push('email=' + encodeURIComponent(emailVal));
   var redirectUrl = THANKYOU + (qs.length ? ('?' + qs.join('&')) : '');
 
-  // Wait for webhook to receive data, then redirect client
-  setTimeout(function(){ 
-   window.location.href = redirectUrl; 
-  }, 1500);
+  // Redirect immediately - client sees thank you page right away
+  window.location.href = redirectUrl;
+
+  // SECOND: Submit form data to webhook in background (after redirect starts)
+  var formData = new FormData(this);
+  fetch(this.action, {
+   method: 'POST',
+   body: formData
+  }).catch(function(err) {
+   console.warn('Background webhook submission failed:', err);
+  });
 
  } catch (err) {
   console.warn('Form processing failed:', err);
-  // Fallback redirect - client still sees thank you page
-  setTimeout(function(){
-   window.location.href = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
-  }, 1000);
+  // Always redirect even if there's an error
+  window.location.href = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
  }
 });
 </script>
