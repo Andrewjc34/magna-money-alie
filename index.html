@@ -587,6 +587,13 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
    this.appendChild(hiddenField);
   }.bind(this));
 
+  // Add submission timestamp - NEW ADDITION
+  var submissionTime = document.createElement('input');
+  submissionTime.type = 'hidden';
+  submissionTime.name = 'Form Submitted At';
+  submissionTime.value = new Date().toISOString();
+  this.appendChild(submissionTime);
+
   // FIRST: Redirect client immediately - NO DELAYS
   var THANKYOU = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
   var qs = [];
