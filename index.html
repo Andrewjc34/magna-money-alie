@@ -569,14 +569,14 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   var totalLiabilities = document.getElementById('liabTotal')?.textContent || '£0.00';
   var netWorth = document.getElementById('sumNetWorth')?.textContent || '£0.00';
 
-  // Add calculated totals as hidden fields
+  // Add calculated totals as hidden fields - UPDATED WITH CLEAR FIELD NAMES
   var fields = [
-   {name: 'Total Monthly Income', value: totalIncome},
-   {name: 'Total Monthly Expenditure', value: totalExpenditure}, 
-   {name: 'Monthly Surplus/Deficit', value: monthlySurplus},
-   {name: 'Total Assets', value: totalAssets},
-   {name: 'Total Liabilities', value: totalLiabilities},
-   {name: 'Net Worth', value: netWorth}
+   {name: 'Calculated Total Monthly Income', value: totalIncome},
+   {name: 'Calculated Total Monthly Expenditure', value: totalExpenditure}, 
+   {name: 'Calculated Monthly Surplus Deficit', value: monthlySurplus},
+   {name: 'Calculated Total Assets', value: totalAssets},
+   {name: 'Calculated Total Liabilities', value: totalLiabilities},
+   {name: 'Calculated Net Worth', value: netWorth}
   ];
 
   fields.forEach(function(field) {
@@ -587,7 +587,7 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
    this.appendChild(hiddenField);
   }.bind(this));
 
-  // Add submission timestamp - NEW ADDITION
+  // Add submission timestamp
   var submissionTime = document.createElement('input');
   submissionTime.type = 'hidden';
   submissionTime.name = 'Form Submitted At';
