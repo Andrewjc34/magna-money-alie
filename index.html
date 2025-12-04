@@ -534,9 +534,15 @@ document.addEventListener('DOMContentLoaded', recalc);
  });
 })();
 
-// Form submission handler - FIXED to ensure client redirect works
+// Form submission handler - TRIPLE FAILSAFE VERSION
 document.getElementById('alieForm').addEventListener('submit', function(e){
- e.preventDefault(); // Prevent default form submission first
+ e.preventDefault(); // Prevent default form submission
+ 
+ // Show loading state
+ const submitBtn = this.querySelector('button[type="submit"]');
+ const originalText = submitBtn.textContent;
+ submitBtn.textContent = 'Submitting...';
+ submitBtn.disabled = true;
  
  try {
   var contactName = (document.getElementById('applicantNames')?.value) || '';
@@ -561,7 +567,7 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   hiddenLast.value = lastName;
   this.appendChild(hiddenLast);
 
-  // CAPTURE CALCULATED TOTALS - THE IMPORTANT FINANCIAL SUMMARY
+  // CAPTURE CALCULATED TOTALS - TRIPLE CHECK APPROACH
   var totalIncome = document.getElementById('incomeTotal')?.textContent || '£0.00';
   var totalExpenditure = document.getElementById('expTotal')?.textContent || '£0.00';
   var monthlySurplus = document.getElementById('sumSurplus')?.textContent || '£0.00';
@@ -569,14 +575,24 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   var totalLiabilities = document.getElementById('liabTotal')?.textContent || '£0.00';
   var netWorth = document.getElementById('sumNetWorth')?.textContent || '£0.00';
 
-  // Add calculated totals as hidden fields - UPDATED WITH CLEAR FIELD NAMES
+  // DEBUG: Log calculated values to console
+  console.log('CALCULATED VALUES:', {
+   totalIncome: totalIncome,
+   totalExpenditure: totalExpenditure,
+   monthlySurplus: monthlySurplus,
+   totalAssets: totalAssets,
+   totalLiabilities: totalLiabilities,
+   netWorth: netWorth
+  });
+
+  // Add calculated totals as hidden fields
   var fields = [
-   {name: 'Calculated Total Monthly Income', value: totalIncome},
-   {name: 'Calculated Total Monthly Expenditure', value: totalExpenditure}, 
-   {name: 'Calculated Monthly Surplus Deficit', value: monthlySurplus},
-   {name: 'Calculated Total Assets', value: totalAssets},
-   {name: 'Calculated Total Liabilities', value: totalLiabilities},
-   {name: 'Calculated Net Worth', value: netWorth}
+   {name: 'Calculated_Total_Monthly_Income', value: totalIncome},
+   {name: 'Calculated_Total_Monthly_Expenditure', value: totalExpenditure}, 
+   {name: 'Calculated_Monthly_Surplus_Deficit', value: monthlySurplus},
+   {name: 'Calculated_Total_Assets', value: totalAssets},
+   {name: 'Calculated_Total_Liabilities', value: totalLiabilities},
+   {name: 'Calculated_Net_Worth', value: netWorth}
   ];
 
   fields.forEach(function(field) {
@@ -585,16 +601,17 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
    hiddenField.name = field.name;
    hiddenField.value = field.value;
    this.appendChild(hiddenField);
+   console.log('Added field:', field.name, '=', field.value);
   }.bind(this));
 
   // Add submission timestamp
   var submissionTime = document.createElement('input');
   submissionTime.type = 'hidden';
-  submissionTime.name = 'Form Submitted At';
+  submissionTime.name = 'Form_Submitted_At';
   submissionTime.value = new Date().toISOString();
   this.appendChild(submissionTime);
 
-  // FIRST: Redirect client immediately - NO DELAYS
+  // Prepare redirect URL
   var THANKYOU = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
   var qs = [];
   if (firstName) qs.push('firstname=' + encodeURIComponent(firstName));
@@ -602,22 +619,93 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   if (emailVal) qs.push('email=' + encodeURIComponent(emailVal));
   var redirectUrl = THANKYOU + (qs.length ? ('?' + qs.join('&')) : '');
 
-  // Redirect immediately - client sees thank you page right away
-  window.location.href = redirectUrl;
-
-  // SECOND: Submit form data to webhook in background (after redirect starts)
+  // FAILSAFE 1: Try XMLHttpRequest first
   var formData = new FormData(this);
-  fetch(this.action, {
-   method: 'POST',
-   body: formData
-  }).catch(function(err) {
-   console.warn('Background webhook submission failed:', err);
-  });
+  
+  function attemptSubmission() {
+   return new Promise(function(resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', this.action, true);
+    xhr.onreadystatechange = function() {
+     if (xhr.readyState === 4) {
+      if (xhr.status >= 200 && xhr.status < 300) {
+       console.log('Webhook submission successful via XMLHttpRequest');
+       resolve();
+      } else {
+       reject('XHR failed with status ' + xhr.status);
+      }
+     }
+    };
+    xhr.onerror = function() { reject('XHR error'); };
+    xhr.send(formData);
+   }.bind(this));
+  }
+
+  // FAILSAFE 2: If XMLHttpRequest fails, try fetch
+  function attemptFetch() {
+   return fetch(this.action, {
+    method: 'POST',
+    body: formData
+   }).then(function(response) {
+    if (response.ok) {
+     console.log('Webhook submission successful via fetch');
+     return Promise.resolve();
+    } else {
+     return Promise.reject('Fetch failed with status ' + response.status);
+    }
+   });
+  }
+
+  // FAILSAFE 3: Direct form submission as last resort
+  function directSubmission() {
+   console.log('Attempting direct form submission');
+   return new Promise(function(resolve) {
+    // Create a temporary iframe for submission
+    var iframe = document.createElement('iframe');
+    iframe.name = 'temp_frame';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    
+    var form = this.cloneNode(true);
+    form.target = 'temp_frame';
+    form.style.display = 'none';
+    document.body.appendChild(form);
+    
+    iframe.onload = function() {
+     document.body.removeChild(iframe);
+     document.body.removeChild(form);
+     console.log('Direct form submission completed');
+     resolve();
+    };
+    
+    form.submit();
+   }.bind(this));
+  }
+
+  // Execute failsafe chain
+  attemptSubmission.call(this)
+   .catch(function(error) {
+    console.warn('XMLHttpRequest failed:', error);
+    return attemptFetch.call(this);
+   }.bind(this))
+   .catch(function(error) {
+    console.warn('Fetch failed:', error);
+    return directSubmission.call(this);
+   }.bind(this))
+   .finally(function() {
+    // Always redirect after all attempts
+    console.log('Redirecting to:', redirectUrl);
+    setTimeout(function() {
+     window.location.href = redirectUrl;
+    }, 1000); // 1 second delay to ensure webhook completes
+   });
 
  } catch (err) {
-  console.warn('Form processing failed:', err);
+  console.error('Form processing failed:', err);
   // Always redirect even if there's an error
-  window.location.href = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
+  setTimeout(function() {
+   window.location.href = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
+  }, 1000);
  }
 });
 </script>
