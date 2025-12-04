@@ -404,30 +404,18 @@ We collect the information you provide to assess your ALIE and will process it i
 </div>
 
 <script>
-// ===== ENHANCED HELPER FUNCTIONS WITH DEBUG LOGGING =====
+// Simple helper functions - no complex calculations needed
 const val = (id) => {
   const el = document.getElementById(id);
-  if(!el) {
-    console.log(`DEBUG: Element '${id}' not found`);
-    return 0;
-  }
+  if(!el) return 0;
   const x = parseFloat(String(el.value).replace(/,/g,''));
-  const result = isNaN(x) ? 0 : x;
-  console.log(`DEBUG val('${id}'):`, el.value, '→', result);
-  return result;
+  return isNaN(x) ? 0 : x;
 };
 
-const fmt = (n) => {
-  const formatted = '£' + (n||0).toFixed(2);
-  console.log(`DEBUG fmt(${n}):`, formatted);
-  return formatted;
-};
+const fmt = (n) => '£' + (n||0).toFixed(2);
 
-// ===== ENHANCED CALCULATION FUNCTION WITH LOGGING =====
+// Simplified recalc function - your form already does all calculations
 function recalc(){
-  console.log('=== RECALC STARTED ===');
-  
-  // Income calculations with logging
   const incDraw = val('incDrawings');
   const incSp = val('incSpouse');
   const incOther = val('incOther');
@@ -437,8 +425,10 @@ function recalc(){
   const incomeB = incChild + incSupport;
   const incomeTotal = incomeA + incomeB;
   
-  console.log('INCOME TOTALS:', {incomeA, incomeB, incomeTotal});
-    // Expenditure calculations with logging
+  document.getElementById('incomeSubtotalA').textContent = fmt(incomeA);
+  document.getElementById('incomeSubtotalB').textContent = fmt(incomeB);
+  document.getElementById('incomeTotal').textContent = fmt(incomeTotal);
+
   const expA = val('expMortgageRent') + val('expEndowment') + val('expInsurance') + val('expLoansHP') + val('expCreditCards');
   document.getElementById('expSubtotalA').textContent = fmt(expA);
   const expB = expA;
@@ -447,60 +437,34 @@ function recalc(){
   document.getElementById('expSubtotalE').textContent = fmt(expE);
   const expTotal = expB + expE;
   document.getElementById('expTotal').textContent = fmt(expTotal);
-  
-  console.log('EXPENDITURE TOTALS:', {expA, expB, expE, expTotal});
 
-  // Assets calculations with logging
   const propTot = val('prop1Value') + val('prop2Value');
   document.getElementById('propTotal').textContent = fmt(propTot);
   const investTotal = val('bankSavings') + val('isa') + val('shares') + val('lifePolicies') + val('investOther');
   document.getElementById('investTotal').textContent = fmt(investTotal);
   const assetsTotal = propTot + investTotal;
   document.getElementById('assetsTotal').textContent = fmt(assetsTotal);
-  
-  console.log('ASSETS TOTALS:', {propTot, investTotal, assetsTotal});
 
-  // Liabilities calculation with logging
   const liabTotal = val('liabMortgage') + val('liabBankLoans') + val('liabHP') + val('liabOtherLoans');
   document.getElementById('liabTotal').textContent = fmt(liabTotal);
-  
-  console.log('LIABILITIES TOTAL:', liabTotal);
-    // Summary calculations with logging
+
   document.getElementById('sumIncome').textContent = fmt(incomeTotal);
   document.getElementById('sumExpend').textContent = fmt(expTotal);
   document.getElementById('sumSurplus').textContent = fmt(incomeTotal - expTotal);
   document.getElementById('sumAssets').textContent = fmt(assetsTotal);
   document.getElementById('sumLiabs').textContent = fmt(liabTotal);
   document.getElementById('sumNetWorth').textContent = fmt(assetsTotal - liabTotal);
-  
-  console.log('FINAL SUMMARY:', {
-    income: incomeTotal,
-    expenditure: expTotal, 
-    surplus: incomeTotal - expTotal,
-    assets: assetsTotal,
-    liabilities: liabTotal,
-    netWorth: assetsTotal - liabTotal
-  });
-  console.log('=== RECALC COMPLETED ===');
 }
 
-// Event listeners for live calculations
 document.addEventListener('input', (e)=>{
-  if(e.target.matches('input[type="number"]')) {
-    console.log('Number input changed:', e.target.id, '=', e.target.value);
-    recalc();
-  }
+  if(e.target.matches('input[type="number"]')) recalc();
 });
 document.addEventListener('DOMContentLoaded', recalc);
-// ===== SIGNATURE PAD FUNCTIONALITY WITH DEBUG LOGGING =====
+// Signature pad functionality
 (function(){
  const canvas = document.getElementById('signaturePad');
- if (!canvas) {
-   console.log('DEBUG: Signature pad canvas not found');
-   return;
- }
+ if (!canvas) return;
  
- console.log('DEBUG: Signature pad initialized successfully');
  const ctx = canvas.getContext('2d');
  const sigData = document.getElementById('signatureData');
  const clearBtn = document.getElementById('clearSigBtn');
@@ -535,7 +499,6 @@ document.addEventListener('DOMContentLoaded', recalc);
   isDrawing = true;
   const pos = getEventPos(e);
   [lastX, lastY] = [pos.x, pos.y];
-  console.log('DEBUG: Started drawing signature');
  }
  
  function draw(e) {
@@ -549,16 +512,14 @@ document.addEventListener('DOMContentLoaded', recalc);
   ctx.stroke();
   
   [lastX, lastY] = [pos.x, pos.y];
+  
   sigData.value = canvas.toDataURL();
  }
  
  function stopDrawing() {
-  if (isDrawing) {
-    console.log('DEBUG: Signature drawing completed, data saved');
-  }
   isDrawing = false;
  }
-  // Signature pad event listeners
+ 
  canvas.addEventListener('mousedown', startDrawing);
  canvas.addEventListener('mousemove', draw);
  canvas.addEventListener('mouseup', stopDrawing);
@@ -571,38 +532,26 @@ document.addEventListener('DOMContentLoaded', recalc);
  clearBtn.addEventListener('click', () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   sigData.value = '';
-  console.log('DEBUG: Signature pad cleared');
  });
 })();
-
-// ===== ENHANCED FORM SUBMISSION HANDLER WITH COMPREHENSIVE DEBUG =====
+// Form submission handler - READS ALREADY CALCULATED VALUES
 document.getElementById('alieForm').addEventListener('submit', function(e){
  e.preventDefault();
  console.log('=== FORM SUBMISSION STARTED ===');
  console.log('Form action URL:', this.action);
  
- // CRITICAL: Check if webhook URL is set correctly
- if (!this.action || this.action === '' || this.action === window.location.href) {
-   console.error('❌ WEBHOOK URL MISSING! Form action:', this.action);
-   console.log('🔧 ADD THIS TO YOUR FORM TAG:');
-   console.log('<form id="alieForm" action="YOUR_ZAPIER_WEBHOOK_URL" method="post">');
- }
- 
  try {
-  // Name parsing with debug
+  // Name parsing
   var contactName = (document.getElementById('applicantNames')?.value) || '';
   var emailField = document.getElementById('email');
   var emailVal = emailField ? emailField.value : '';
-  console.log('DEBUG: Contact name:', contactName);
-  console.log('DEBUG: Email:', emailVal);
-  
   var firstName = '';
   var lastName = '';
   var nameParts = contactName.trim().split(/\s+/);
   if (nameParts.length === 1) { firstName = nameParts[0]; }
   else if (nameParts.length > 1) { firstName = nameParts.shift(); lastName = nameParts.join(' '); }
-  console.log('DEBUG: Parsed names - First:', firstName, 'Last:', lastName);
-    // Add hidden name fields with debug
+
+  // Add hidden name fields
   var hiddenFirst = document.createElement('input');
   hiddenFirst.type = 'hidden';
   hiddenFirst.name = 'first_name';
@@ -615,27 +564,42 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   hiddenLast.value = lastName;
   this.appendChild(hiddenLast);
 
-  // DIRECT CALCULATION WITH COMPREHENSIVE DEBUG
-  const incomeTotal = val('incDrawings') + val('incSpouse') + val('incChildBenefit') + val('incIncomeSupport') + val('incOther');
-  const expenditureTotal = val('expMortgageRent') + val('expEndowment') + val('expInsurance') + val('expLoansHP') + val('expCreditCards') + val('expMaintenance') + val('expCouncilWater') + val('expFuel') + val('expTelephone') + val('expCarLeasing') + val('expCarTaxIns') + val('expFood') + val('expClothingLeisure') + val('expOther');
-  const surplus = incomeTotal - expenditureTotal;
-  const assetsTotal = val('prop1Value') + val('prop2Value') + val('bankSavings') + val('isa') + val('shares') + val('lifePolicies') + val('investOther');
-  const liabilitiesTotal = val('liabMortgage') + val('liabBankLoans') + val('liabHP') + val('liabOtherLoans');
-  const netWorth = assetsTotal - liabilitiesTotal;
+  // READ ALREADY CALCULATED SUMMARY VALUES (no calculations needed!)
+  var sumIncomeEl = document.getElementById('sumIncome');
+  var sumExpendEl = document.getElementById('sumExpend');
+  var sumSurplusEl = document.getElementById('sumSurplus');
+  var sumAssetsEl = document.getElementById('sumAssets');
+  var sumLiabsEl = document.getElementById('sumLiabs');
+  var sumNetWorthEl = document.getElementById('sumNetWorth');
 
-  // Create calculated fields with FULL DEBUG
-  const calculations = [
-   {name: 'CALC_TOTAL_INCOME', value: fmt(incomeTotal)},
-   {name: 'CALC_TOTAL_EXPENDITURE', value: fmt(expenditureTotal)},
-   {name: 'CALC_SURPLUS', value: fmt(surplus)},
-   {name: 'CALC_TOTAL_ASSETS', value: fmt(assetsTotal)},
-   {name: 'CALC_TOTAL_LIABILITIES', value: fmt(liabilitiesTotal)},
-   {name: 'CALC_NET_WORTH', value: fmt(netWorth)}
+  var incomeValue = sumIncomeEl ? sumIncomeEl.textContent : '£0.00';
+  var expendValue = sumExpendEl ? sumExpendEl.textContent : '£0.00';
+  var surplusValue = sumSurplusEl ? sumSurplusEl.textContent : '£0.00';
+  var assetsValue = sumAssetsEl ? sumAssetsEl.textContent : '£0.00';
+  var liabsValue = sumLiabsEl ? sumLiabsEl.textContent : '£0.00';
+  var netWorthValue = sumNetWorthEl ? sumNetWorthEl.textContent : '£0.00';
+
+  console.log('=== READING CALCULATED SUMMARY VALUES ===');
+  console.log('✅ Total Income:', incomeValue);
+  console.log('✅ Total Expenditure:', expendValue);
+  console.log('✅ Surplus/Deficit:', surplusValue);
+  console.log('✅ Total Assets:', assetsValue);
+  console.log('✅ Total Liabilities:', liabsValue);
+  console.log('✅ Net Worth:', netWorthValue);
+
+  // Add calculated totals as hidden fields
+  var calculations = [
+   {name: 'CALC_TOTAL_INCOME', value: incomeValue},
+   {name: 'CALC_TOTAL_EXPENDITURE', value: expendValue},
+   {name: 'CALC_SURPLUS', value: surplusValue},
+   {name: 'CALC_TOTAL_ASSETS', value: assetsValue},
+   {name: 'CALC_TOTAL_LIABILITIES', value: liabsValue},
+   {name: 'CALC_NET_WORTH', value: netWorthValue}
   ];
 
-  console.log('=== CALCULATED VALUES BEING SENT ===');
+  console.log('=== CREATING HIDDEN FIELDS FOR WEBHOOK ===');
   calculations.forEach(function(calc) {
-   console.log('✅', calc.name + ':', calc.value);
+   console.log('📤 Adding field:', calc.name, '=', calc.value);
    var hiddenField = document.createElement('input');
    hiddenField.type = 'hidden';
    hiddenField.name = calc.name;
@@ -654,7 +618,7 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   var formData = new FormData(this);
   console.log('=== ALL FORM DATA BEING SENT ===');
   for (let [key, value] of formData.entries()) {
-   console.log('📤', key, '=', value);
+   console.log('📨', key, '=', value);
   }
 
   // Submit with redirect
@@ -682,10 +646,3 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
  }
 });
 </script>
-
-<!-- HubSpot Embed Code -->
-<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/8402236.js"></script>
-<!-- End of HubSpot Embed Code -->
-
-</body>
-</html>
