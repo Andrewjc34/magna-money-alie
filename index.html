@@ -123,10 +123,17 @@ hr.div{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
   <label for="applicantNames">Name(s)</label>
   <input id="applicantNames" name="Name(s)" type="text" placeholder="Full name(s)" required>
  </div>
- <div class="col field">
+<div class="col field">
   <label for="email">Email Address</label>
-  <input id="email" name="email" type="email" placeholder="client@company.com" required>
- </div>
+  <input
+    id="email"
+    name="email"
+    type="email"
+    placeholder="client@company.com"
+    autocomplete="email"
+    required
+  >
+</div>
 </div>  <!-- ← Now all 3 fields are in the same row -->
 <hr class="div">
 <!-- SECTION 2: Monthly Income -->
@@ -355,44 +362,69 @@ hr.div{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
 <!-- SECTION 7: Declaration -->
 <h3 class="section">Section 7: Declaration</h3>
 <div class="disclaimer">
- I / We confirm that the information given above is true and accurate to the best of my/our knowledge and belief.
+  I / We confirm that the information given above is true and accurate to the best of my/our knowledge and belief.
 </div>
 <div class="grid-3">
- <div class="field">
-  <label for="signedBy">Signed (name)</label>
-  <input id="signedBy" name="Signed By" type="text" placeholder="Full name">
- </div>
- <div class="field">
-  <label for="signatureDate">Date</label>
-  <input id="signatureDate" name="Signature Date" type="text" placeholder="DD / MM / YYYY">
- </div>
- <div class="field">
-  <label for="notes">Notes (optional)</label>
-  <input id="notes" name="Notes" type="text" placeholder="Any additional info">
- </div>
+  <div class="field">
+    <label for="signedBy">Signed (name)</label>
+    <input id="signedBy" name="Signed By" type="text" placeholder="Full name">
+  </div>
+  <div class="field">
+    <label for="declarationDate">Date</label>
+    <input
+      id="declarationDate"
+      name="Declaration Date"
+      type="text"
+      placeholder="DD / MM / YYYY"
+    >
+  </div>
+  <div class="field">
+    <label for="notes">Notes (optional)</label>
+    <input id="notes" name="Notes" type="text" placeholder="Any additional info">
+  </div>
 </div>
 
 <!-- Electronic Signature -->
 <hr class="div">
 <h3 class="section">Electronic Signature</h3>
 <div class="field">
- <label for="signaturePad">Please draw your signature below</label>
- <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(198,167,107,0.25); border-radius: 6px; padding: 8px; position: relative;">
-  <canvas id="signaturePad" width="600" height="180" style="width:100%;background:rgba(255,255,255,0.02);border-radius:6px;cursor:crosshair;"></canvas>
-  <button type="button" id="clearSigBtn" style="position:absolute;bottom:8px;right:8px;background:var(--gold);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:13px;">Clear Signature</button>
- </div>
- <input type="hidden" name="Signature Image (Base64)" id="signatureData">
-</div>
-<div class="field">
- <label for="signatureDate">Date of Signature</label>
- <input type="date" id="signatureDate" name="Signature Date (Calendar)" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(198,167,107,0.25); color: var(--white);">
+  <label>Bitte draw your signature below</label>
+  <div
+    style="background: rgba(255,255,255,0.02); border: 1px solid rgba(198,167,107,0.25); border-radius: 6px; padding: 8px; position: relative;"
+  >
+    <canvas
+      id="signaturePad"
+      width="600"
+      height="180"
+      style="width:100%;background:rgba(255,255,255,0.02);border-radius:6px;cursor:crosshair;"
+      aria-label="Signature drawing area"
+    ></canvas>
+    <button
+      type="button"
+      id="clearSigBtn"
+      style="position:absolute;bottom:8px;right:8px;background:var(--gold);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:13px;"
+    >
+      Clear Signature
+    </button>
+  </div>
+  <!-- Optional: if you still want to store signature data in the form,
+       keep this as a non-hidden text field and hide it via CSS only. -->
+  <input
+    type="text"
+    name="Signature Image (Base64)"
+    id="signatureData"
+    style="display:none;"
+  >
 </div>
 
-<div class="gdpr"><strong>Data privacy notice</strong><div style="height:8px"></div>
-We collect the information you provide to assess your ALIE and will process it in line with our privacy policy. By submitting this form you consent to the processing of your data for the purposes of assessing and progressing your enquiry.
-</div>
-<div class="submit-row">
- <button class="btn" type="submit">Submit ALIE</button>
+<div class="field">
+  <label for="signatureDate">Date of Signature</label>
+  <input
+    type="date"
+    id="signatureDate"
+    name="Signature Date (Calendar)"
+    style="background: rgba(255,255,255,0.02); border: 1px solid rgba(198,167,107,0.25); color: var(--white);"
+  >
 </div>
 
 <hr class="div">
@@ -407,7 +439,6 @@ We collect the information you provide to assess your ALIE and will process it i
  <span class="pill">Net Worth (Assets − Liabilities): <strong id="sumNetWorth">£0.00</strong></span>
 </div>
 </form>
-</div>
 </div>
 
 <script>
