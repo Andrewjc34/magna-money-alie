@@ -96,14 +96,22 @@ hr.div{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
     <div class="intro">Please complete this statement so we can assess affordability and structure funding appropriately.</div>
   </div>
 
-  <form
-    id="alieForm"
-    name="Magna ALIE"
-    method="GET"
-    action="https://magna-money-alie.vercel.app/thank-you-ALIE.html"
-    novalidate
-    autocomplete="on"
-  >
+<form
+  id="alieForm"
+  name="Magna ALIE"
+  method="POST"
+  action="/api/hubspot-alie-submit"
+  novalidate
+  autocomplete="on"
+>
+    <!-- HIDDEN FIELDS FOR HUBSPOT ALIE SUMMARY PROPERTIES -->
+    <input type="hidden" id="alie_total_monthly_income" name="alie_total_monthly_income" value="">
+    <input type="hidden" id="alie_total_monthly_expenditure" name="alie_total_monthly_expenditure" value="">
+    <input type="hidden" id="alie_monthly_surplus_deficit" name="alie_monthly_surplus_deficit" value="">
+    <input type="hidden" id="alie_total_assets" name="alie_total_assets" value="">
+    <input type="hidden" id="alie_total_liabilities" name="alie_total_liabilities" value="">
+    <input type="hidden" id="alie_net_worth" name="alie_net_worth" value="">
+
     <!-- SECTION 1: Business & Banking -->
     <h3 class="section">Section 1: Business &amp; Banking</h3>
     <div class="row">
@@ -467,6 +475,21 @@ function recalc() {
   document.getElementById('sumAssets').textContent = fmt(assetsTotal);
   document.getElementById('sumLiabs').textContent = fmt(liabTotal);
   document.getElementById('sumNetWorth').textContent = fmt(assetsTotal - liabTotal);
+
+  // UPDATE HIDDEN HUBSPOT FIELDS FOR ALIE SUMMARY PROPERTIES
+  const hiddenIncome = document.getElementById('alie_total_monthly_income');
+  const hiddenExpend = document.getElementById('alie_total_monthly_expenditure');
+  const hiddenSurplus = document.getElementById('alie_monthly_surplus_deficit');
+  const hiddenAssets = document.getElementById('alie_total_assets');
+  const hiddenLiabs = document.getElementById('alie_total_liabilities');
+  const hiddenNetWorth = document.getElementById('alie_net_worth');
+
+  if (hiddenIncome) hiddenIncome.value = incomeTotal.toFixed(2);
+  if (hiddenExpend) hiddenExpend.value = expTotal.toFixed(2);
+  if (hiddenSurplus) hiddenSurplus.value = (incomeTotal - expTotal).toFixed(2);
+  if (hiddenAssets) hiddenAssets.value = assetsTotal.toFixed(2);
+  if (hiddenLiabs) hiddenLiabs.value = liabTotal.toFixed(2);
+  if (hiddenNetWorth) hiddenNetWorth.value = (assetsTotal - liabTotal).toFixed(2);
 }
 
 document.addEventListener('input', (e) => {
