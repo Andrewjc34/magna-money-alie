@@ -104,7 +104,14 @@ hr.div{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
  <div class="website-line">www.magnamoney.co.uk</div>
  <div class="intro">Please complete this statement so we can assess affordability and structure funding appropriately.</div>
 </div>
-<form id="alieForm" name="Magna ALIE" method="POST" action="https://hooks.zapier.com/hooks/catch/25282043/uk8nava/" novalidate autocomplete="on">
+<form
+  id="alieForm"
+  name="Magna ALIE"
+  method="POST"
+  action=""
+  novalidate
+  autocomplete="on"
+>
 <!-- SECTION 1: Business & Banking -->
 <h3 class="section">Section 1: Business &amp; Banking</h3>
 <div class="row">
@@ -460,6 +467,7 @@ document.addEventListener('input', (e)=>{
   if(e.target.matches('input[type="number"]')) recalc();
 });
 document.addEventListener('DOMContentLoaded', recalc);
+
 // Signature pad functionality
 (function(){
  const canvas = document.getElementById('signaturePad');
@@ -534,141 +542,37 @@ document.addEventListener('DOMContentLoaded', recalc);
   sigData.value = '';
  });
 })();
-// Form submission handler - CREATES EXACT HUBSPOT FIELD NAMES
-document.getElementById('alieForm').addEventListener('submit', function(e){
- e.preventDefault();
- console.log('=== FORM SUBMISSION STARTED ===');
- console.log('Form action URL:', this.action);
- 
- try {
-  // Get business name and convert to Company for HubSpot
-  var businessName = (document.getElementById('businessName')?.value) || '';
-  
-  // Name parsing - convert Name(s) to Contact fields for HubSpot  
-  var contactName = (document.getElementById('applicantNames')?.value) || '';
-  var emailField = document.getElementById('email');
-  var emailVal = emailField ? emailField.value : '';
-  var firstName = '';
-  var lastName = '';
-  var nameParts = contactName.trim().split(/\s+/);
-  if (nameParts.length === 1) { firstName = nameParts[0]; }
-  else if (nameParts.length > 1) { firstName = nameParts.shift(); lastName = nameParts.join(' '); }
 
-  console.log('=== FIELD CONVERSIONS FOR HUBSPOT ===');
-  console.log('✅ Business Name → Company:', businessName);
-  console.log('✅ Name(s) → Contact:', firstName, lastName);
+/*
+ * OPTIONAL: Gentle redirect to thank-you page AFTER normal submit.
+ * IMPORTANT: No preventDefault, so HubSpot still sees a normal form submit.
+ */
+(function () {
+  const form = document.getElementById('alieForm');
+  if (!form) return;
 
-  // Add Company field (Business Name converted for HubSpot)
-  var hiddenCompany = document.createElement('input');
-  hiddenCompany.type = 'hidden';
-  hiddenCompany.name = 'Company';
-  hiddenCompany.value = businessName;
-  this.appendChild(hiddenCompany);
+  form.addEventListener('submit', function () {
+    // Do not block the submit – HubSpot needs the normal submit event.
+    const THANKYOU = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
 
-  // Add Contact fields (Name converted for HubSpot)
-  var hiddenFirst = document.createElement('input');
-  hiddenFirst.type = 'hidden';
-  hiddenFirst.name = 'first_name';
-  hiddenFirst.value = firstName;
-  this.appendChild(hiddenFirst);
+    // Optional: grab some basic values to pass on query string
+    const nameEl = document.getElementById('applicantNames');
+    const emailEl = document.getElementById('email');
+    const contactName = nameEl ? nameEl.value : '';
+    const emailVal = emailEl ? emailEl.value : '';
 
-  var hiddenLast = document.createElement('input');
-  hiddenLast.type = 'hidden';
-  hiddenLast.name = 'last_name';
-  hiddenLast.value = lastName;
-  this.appendChild(hiddenLast);
+    const qs = [];
+    if (contactName) qs.push('name=' + encodeURIComponent(contactName));
+    if (emailVal) qs.push('email=' + encodeURIComponent(emailVal));
 
-  // READ ALREADY CALCULATED SUMMARY VALUES FROM FORM
-  var sumIncomeEl = document.getElementById('sumIncome');
-  var sumExpendEl = document.getElementById('sumExpend');
-  var sumSurplusEl = document.getElementById('sumSurplus');
-  var sumAssetsEl = document.getElementById('sumAssets');
-  var sumLiabsEl = document.getElementById('sumLiabs');
-  var sumNetWorthEl = document.getElementById('sumNetWorth');
+    const redirectUrl = THANKYOU + (qs.length ? ('?' + qs.join('&')) : '');
 
-  var incomeValue = sumIncomeEl ? sumIncomeEl.textContent : '£0.00';
-  var expendValue = sumExpendEl ? sumExpendEl.textContent : '£0.00';
-  var surplusValue = sumSurplusEl ? sumSurplusEl.textContent : '£0.00';
-  var assetsValue = sumAssetsEl ? sumAssetsEl.textContent : '£0.00';
-  var liabsValue = sumLiabsEl ? sumLiabsEl.textContent : '£0.00';
-  var netWorthValue = sumNetWorthEl ? sumNetWorthEl.textContent : '£0.00';
-
-  console.log('=== READING PRE-CALCULATED FINANCIAL TOTALS ===');
-  console.log('✅ Total Income:', incomeValue);
-  console.log('✅ Total Expenditure:', expendValue);
-  console.log('✅ Surplus/Deficit:', surplusValue);
-  console.log('✅ Total Assets:', assetsValue);
-  console.log('✅ Total Liabilities:', liabsValue);
-  console.log('✅ Net Worth:', netWorthValue);
-    // CREATE EXACT ALIE HUBSPOT FIELD NAMES (NO CALC_ FIELDS)
-  var alieFields = [
-   {name: 'alie_total_monthly_income', value: incomeValue},
-   {name: 'alie_total_monthly_expenditure', value: expendValue},
-   {name: 'alie_monthly_surplus_deficit', value: surplusValue},
-   {name: 'alie_total_assets', value: assetsValue},
-   {name: 'alie_total_liabilities', value: liabsValue},
-   {name: 'alie_net_worth', value: netWorthValue}
-  ];
-
-  console.log('=== CREATING EXACT HUBSPOT ALIE FIELD NAMES ===');
-  alieFields.forEach(function(field) {
-   console.log('📤 Creating ALIE field:', field.name, '=', field.value);
-   var hiddenField = document.createElement('input');
-   hiddenField.type = 'hidden';
-   hiddenField.name = field.name;
-   hiddenField.value = field.value;
-   this.appendChild(hiddenField);
-  }.bind(this));
-
-  // Add timestamp
-  var submissionTime = document.createElement('input');
-  submissionTime.type = 'hidden';
-  submissionTime.name = 'Form_Submitted_At';
-  submissionTime.value = new Date().toISOString();
-  this.appendChild(submissionTime);
-
-  // Final FormData debug
-  var formData = new FormData(this);
-  console.log('=== ALL FORM DATA BEING SENT TO HUBSPOT ===');
-  for (let [key, value] of formData.entries()) {
-   console.log('📨', key, '=', value);
-  }
-
-  console.log('=== SUMMARY: FIELDS FOR HUBSPOT ===');
-  console.log('✅ Company:', businessName);
-  console.log('✅ Contact:', firstName, lastName);
-  console.log('✅ Email:', emailVal);
-  console.log('✅ ALIE Total Income:', incomeValue);
-  console.log('✅ ALIE Total Expenditure:', expendValue);
-  console.log('✅ ALIE Surplus/Deficit:', surplusValue);
-  console.log('✅ ALIE Total Assets:', assetsValue);
-  console.log('✅ ALIE Total Liabilities:', liabsValue);
-  console.log('✅ ALIE Net Worth:', netWorthValue);
-
-  // Submit with redirect
-  var THANKYOU = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
-  var qs = [];
-  if (firstName) qs.push('firstname=' + encodeURIComponent(firstName));
-  if (lastName) qs.push('lastname=' + encodeURIComponent(lastName));
-  if (emailVal) qs.push('email=' + encodeURIComponent(emailVal));
-  var redirectUrl = THANKYOU + (qs.length ? ('?' + qs.join('&')) : '');
-
-  fetch(this.action, {
-   method: 'POST',
-   body: formData
-  }).then(function() {
-   console.log('✅ Form submission successful - HubSpot will receive ALIE fields');
-   window.location.href = redirectUrl;
-  }).catch(function(error) {
-   console.error('❌ Form submission failed:', error);
-   window.location.href = redirectUrl;
+    // Small delay to allow the browser to POST the form before redirecting.
+    setTimeout(function () {
+      window.location.href = redirectUrl;
+    }, 500);
   });
-
- } catch (err) {
-  console.error('❌ Form submission error:', err);
-  window.location.href = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
- }
-});
+})();
 </script>
 
 <!-- HubSpot Embed Code -->
