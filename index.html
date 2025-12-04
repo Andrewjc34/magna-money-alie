@@ -107,8 +107,8 @@ hr.div{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
 <form
   id="alieForm"
   name="Magna ALIE"
-  method="POST"
-  action="#"
+  method="GET"
+  action="https://magna-money-alie.vercel.app/thank-you-ALIE.html"
   novalidate
   autocomplete="on"
 >
@@ -543,36 +543,6 @@ document.addEventListener('DOMContentLoaded', recalc);
  });
 })();
 
-/*
- * OPTIONAL: Gentle redirect to thank-you page AFTER normal submit.
- * IMPORTANT: No preventDefault, so HubSpot still sees a normal form submit.
- */
-(function () {
-  const form = document.getElementById('alieForm');
-  if (!form) return;
-
-  form.addEventListener('submit', function () {
-    // Do not block the submit – HubSpot needs the normal submit event.
-    const THANKYOU = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
-
-    // Optional: grab some basic values to pass on query string
-    const nameEl = document.getElementById('applicantNames');
-    const emailEl = document.getElementById('email');
-    const contactName = nameEl ? nameEl.value : '';
-    const emailVal = emailEl ? emailEl.value : '';
-
-    const qs = [];
-    if (contactName) qs.push('name=' + encodeURIComponent(contactName));
-    if (emailVal) qs.push('email=' + encodeURIComponent(emailVal));
-
-    const redirectUrl = THANKYOU + (qs.length ? ('?' + qs.join('&')) : '');
-
-    // Small delay to allow the browser to POST the form before redirecting.
-    setTimeout(function () {
-      window.location.href = redirectUrl;
-    }, 500);
-  });
-})();
 </script>
 
 <!-- HubSpot Embed Code -->
