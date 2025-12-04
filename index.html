@@ -534,14 +534,17 @@ document.addEventListener('DOMContentLoaded', recalc);
   sigData.value = '';
  });
 })();
-// Form submission handler - READS ALREADY CALCULATED VALUES
+// Form submission handler - CREATES EXACT HUBSPOT FIELD NAMES
 document.getElementById('alieForm').addEventListener('submit', function(e){
  e.preventDefault();
  console.log('=== FORM SUBMISSION STARTED ===');
  console.log('Form action URL:', this.action);
  
  try {
-  // Name parsing
+  // Get business name and convert to Company for HubSpot
+  var businessName = (document.getElementById('businessName')?.value) || '';
+  
+  // Name parsing - convert Name(s) to Contact fields for HubSpot  
   var contactName = (document.getElementById('applicantNames')?.value) || '';
   var emailField = document.getElementById('email');
   var emailVal = emailField ? emailField.value : '';
@@ -551,7 +554,18 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   if (nameParts.length === 1) { firstName = nameParts[0]; }
   else if (nameParts.length > 1) { firstName = nameParts.shift(); lastName = nameParts.join(' '); }
 
-  // Add hidden name fields
+  console.log('=== FIELD CONVERSIONS FOR HUBSPOT ===');
+  console.log('✅ Business Name → Company:', businessName);
+  console.log('✅ Name(s) → Contact:', firstName, lastName);
+
+  // Add Company field (Business Name converted for HubSpot)
+  var hiddenCompany = document.createElement('input');
+  hiddenCompany.type = 'hidden';
+  hiddenCompany.name = 'Company';
+  hiddenCompany.value = businessName;
+  this.appendChild(hiddenCompany);
+
+  // Add Contact fields (Name converted for HubSpot)
   var hiddenFirst = document.createElement('input');
   hiddenFirst.type = 'hidden';
   hiddenFirst.name = 'first_name';
@@ -564,7 +578,7 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   hiddenLast.value = lastName;
   this.appendChild(hiddenLast);
 
-  // READ ALREADY CALCULATED SUMMARY VALUES (no calculations needed!)
+  // READ ALREADY CALCULATED SUMMARY VALUES FROM FORM
   var sumIncomeEl = document.getElementById('sumIncome');
   var sumExpendEl = document.getElementById('sumExpend');
   var sumSurplusEl = document.getElementById('sumSurplus');
@@ -579,31 +593,30 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
   var liabsValue = sumLiabsEl ? sumLiabsEl.textContent : '£0.00';
   var netWorthValue = sumNetWorthEl ? sumNetWorthEl.textContent : '£0.00';
 
-  console.log('=== READING CALCULATED SUMMARY VALUES ===');
+  console.log('=== READING PRE-CALCULATED FINANCIAL TOTALS ===');
   console.log('✅ Total Income:', incomeValue);
   console.log('✅ Total Expenditure:', expendValue);
   console.log('✅ Surplus/Deficit:', surplusValue);
   console.log('✅ Total Assets:', assetsValue);
   console.log('✅ Total Liabilities:', liabsValue);
   console.log('✅ Net Worth:', netWorthValue);
-
-  // Add calculated totals as hidden fields
-  var calculations = [
-   {name: 'CALC_TOTAL_INCOME', value: incomeValue},
-   {name: 'CALC_TOTAL_EXPENDITURE', value: expendValue},
-   {name: 'CALC_SURPLUS', value: surplusValue},
-   {name: 'CALC_TOTAL_ASSETS', value: assetsValue},
-   {name: 'CALC_TOTAL_LIABILITIES', value: liabsValue},
-   {name: 'CALC_NET_WORTH', value: netWorthValue}
+    // CREATE EXACT ALIE HUBSPOT FIELD NAMES (NO CALC_ FIELDS)
+  var alieFields = [
+   {name: 'alie_total_monthly_income', value: incomeValue},
+   {name: 'alie_total_monthly_expenditure', value: expendValue},
+   {name: 'alie_monthly_surplus_deficit', value: surplusValue},
+   {name: 'alie_total_assets', value: assetsValue},
+   {name: 'alie_total_liabilities', value: liabsValue},
+   {name: 'alie_net_worth', value: netWorthValue}
   ];
 
-  console.log('=== CREATING HIDDEN FIELDS FOR WEBHOOK ===');
-  calculations.forEach(function(calc) {
-   console.log('📤 Adding field:', calc.name, '=', calc.value);
+  console.log('=== CREATING EXACT HUBSPOT ALIE FIELD NAMES ===');
+  alieFields.forEach(function(field) {
+   console.log('📤 Creating ALIE field:', field.name, '=', field.value);
    var hiddenField = document.createElement('input');
    hiddenField.type = 'hidden';
-   hiddenField.name = calc.name;
-   hiddenField.value = calc.value;
+   hiddenField.name = field.name;
+   hiddenField.value = field.value;
    this.appendChild(hiddenField);
   }.bind(this));
 
@@ -616,10 +629,21 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
 
   // Final FormData debug
   var formData = new FormData(this);
-  console.log('=== ALL FORM DATA BEING SENT ===');
+  console.log('=== ALL FORM DATA BEING SENT TO HUBSPOT ===');
   for (let [key, value] of formData.entries()) {
    console.log('📨', key, '=', value);
   }
+
+  console.log('=== SUMMARY: FIELDS FOR HUBSPOT ===');
+  console.log('✅ Company:', businessName);
+  console.log('✅ Contact:', firstName, lastName);
+  console.log('✅ Email:', emailVal);
+  console.log('✅ ALIE Total Income:', incomeValue);
+  console.log('✅ ALIE Total Expenditure:', expendValue);
+  console.log('✅ ALIE Surplus/Deficit:', surplusValue);
+  console.log('✅ ALIE Total Assets:', assetsValue);
+  console.log('✅ ALIE Total Liabilities:', liabsValue);
+  console.log('✅ ALIE Net Worth:', netWorthValue);
 
   // Submit with redirect
   var THANKYOU = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
@@ -633,7 +657,7 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
    method: 'POST',
    body: formData
   }).then(function() {
-   console.log('✅ Form submission successful');
+   console.log('✅ Form submission successful - HubSpot will receive ALIE fields');
    window.location.href = redirectUrl;
   }).catch(function(error) {
    console.error('❌ Form submission failed:', error);
@@ -646,3 +670,10 @@ document.getElementById('alieForm').addEventListener('submit', function(e){
  }
 });
 </script>
+
+<!-- HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/8402236.js"></script>
+<!-- End of HubSpot Embed Code -->
+
+</body>
+</html>
