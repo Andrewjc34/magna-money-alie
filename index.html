@@ -100,7 +100,7 @@ hr.div{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
   id="alieForm"
   name="Magna ALIE"
   method="POST"
-  action="/api/hubspot-alie-submit"
+  action="https://magna-money-alie.vercel.app/thank-you-ALIE.html"
   novalidate
   autocomplete="on"
 >
@@ -492,11 +492,19 @@ function recalc() {
   if (hiddenNetWorth) hiddenNetWorth.value = (assetsTotal - liabTotal).toFixed(2);
 }
 
+js
+
+
+Copy code
 document.addEventListener('input', (e) => {
   if (e.target.matches('input[type="number"]')) recalc();
 });
 document.addEventListener('DOMContentLoaded', recalc);
-</script>
+
+// NEW: ensure hidden fields are up-to-date on submit
+document.getElementById('alieForm').addEventListener('submit', function () {
+  recalc();
+});
 
 <!-- HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/8402236.js"></script>
