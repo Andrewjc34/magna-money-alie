@@ -401,6 +401,125 @@ hr.div{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0}
   </form>
 </div>
 
+ <hr class="div">
+    <!-- SECTION 5: Assets & Investments -->
+    <h3 class="section">Section 5: Assets &amp; Investments</h3>
+    <div class="grid-3">
+      <div class="field">
+        <label for="bankSavings">Bank savings</label>
+        <input id="bankSavings" name="Bank Savings (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+      </div>
+      <div class="field">
+        <label for="isa">ISA</label>
+        <input id="isa" name="ISA (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+      </div>
+      <div class="field">
+        <label for="shares">Shares</label>
+        <input id="shares" name="Shares (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label for="lifePolicies">Life Policies (surrender value)</label>
+        <input id="lifePolicies" name="Life Policies (Surrender Value) (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+      </div>
+      <div class="field">
+        <label for="investOther">Other investments</label>
+        <input id="investOther" name="Other Investments (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+      </div>
+    </div>
+    <div class="summary">
+      <span class="pill">Total Investments: <strong id="investTotal">£0.00</strong></span>
+      <span class="pill">Total Assets: <strong id="assetsTotal">£0.00</strong></span>
+    </div>
+
+    <hr class="div">
+    <!-- SECTION 6: Liabilities & Credit -->
+    <h3 class="section">Section 6: Liabilities &amp; Credit</h3>
+    <div class="grid-3">
+      <div class="field">
+        <label for="liabMortgage">Outstanding Mortgage</label>
+        <input id="liabMortgage" name="Liability - Outstanding Mortgage (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+      </div>
+      <div class="field">
+        <label for="liabBankLoans">Bank Loans</label>
+        <input id="liabBankLoans" name="Liability - Bank Loans (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+      </div>
+      <div class="field">
+        <label for="liabHP">Hire Purchase</label>
+        <input id="liabHP" name="Liability - Hire Purchase (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="field">
+        <label for="liabOtherLoans">Other Loans</label>
+        <input id="liabOtherLoans" name="Liability - Other Loans (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+      </div>
+      <div class="field">
+        <label for="creditCardHeld">Credit card held</label>
+        <select id="creditCardHeld" name="Credit card held (Y/N)">
+          <option value="">Please choose…</option>
+          <option>Y</option>
+          <option>N</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="otherStoreCards">Other credit/store cards</label>
+        <select id="otherStoreCards" name="Other credit/store cards (Y/N)">
+          <option value="">Please choose…</option>
+          <option>Y</option>
+          <option>N</option>
+        </select>
+      </div>
+    </div>
+    <div class="summary">
+      <span class="pill">Total Liabilities: <strong id="liabTotal">£0.00</strong></span>
+    </div>
+
+    <hr class="div">
+    <!-- SECTION 7: Declaration -->
+    <h3 class="section">Section 7: Declaration</h3>
+    <div class="disclaimer">
+      I / We confirm that the information given above is true and accurate to the best of my/our knowledge and belief.
+    </div>
+    <div class="grid-3">
+      <div class="field">
+        <label for="signedBy">Signed (name)</label>
+        <input id="signedBy" name="Signed By" type="text" placeholder="Full name">
+      </div>
+      <div class="field">
+        <label for="declarationDate">Date</label>
+        <input
+          id="declarationDate"
+          name="Declaration Date"
+          type="text"
+          placeholder="DD / MM / YYYY"
+        >
+      </div>
+      <div class="field">
+        <label for="notes">Notes (optional)</label>
+        <input id="notes" name="Notes" type="text" placeholder="Any additional info">
+      </div>
+    </div>
+
+    <hr class="div">
+    <!-- Overall Summary -->
+    <h3 class="section">Summary</h3>
+    <div class="summary">
+      <span class="pill">Total Monthly Income: <strong id="sumIncome">£0.00</strong></span>
+      <span class="pill">Total Monthly Expenditure: <strong id="sumExpend">£0.00</strong></span>
+      <span class="pill">Monthly Surplus / (Deficit): <strong id="sumSurplus">£0.00</strong></span>
+      <span class="pill">Total Assets: <strong id="sumAssets">£0.00</strong></span>
+      <span class="pill">Total Liabilities: <strong id="sumLiabs">£0.00</strong></span>
+      <span class="pill">Net Worth (Assets − Liabilities): <strong id="sumNetWorth">£0.00</strong></span>
+    </div>
+
+    <div class="submit-row">
+      <button class="btn" type="submit">Submit ALIE</button>
+    </div>
+  </form>
+</div>
+
 <script>
 // Simple helper functions
 const val = (id) => {
@@ -492,19 +611,19 @@ function recalc() {
   if (hiddenNetWorth) hiddenNetWorth.value = (assetsTotal - liabTotal).toFixed(2);
 }
 
-js
-
-
-Copy code
+// Recalculate when number inputs change
 document.addEventListener('input', (e) => {
   if (e.target.matches('input[type="number"]')) recalc();
 });
+
+// Initial calculation on load
 document.addEventListener('DOMContentLoaded', recalc);
 
-// NEW: ensure hidden fields are up-to-date on submit
+// Ensure hidden fields are up-to-date on submit
 document.getElementById('alieForm').addEventListener('submit', function () {
   recalc();
 });
+</script>
 
 <!-- HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/8402236.js"></script>
