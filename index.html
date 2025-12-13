@@ -442,6 +442,7 @@
     </form>
   </div> <!-- end .form-panel -->
 </div> <!-- end .container -->
+<!-- BEGIN ALIE SCRIPT BLOCK -->
 <script>
 // Simple helper functions
 const val = (id) => {
@@ -517,7 +518,7 @@ function recalc() {
   document.getElementById('sumLiabs').textContent = fmt(liabTotal);
   document.getElementById('sumNetWorth').textContent = fmt(assetsTotal - liabTotal);
 
-  // UPDATE HIDDEN HUBSPOT FIELDS FOR ALIE SUMMARY PROPERTIES
+  // UPDATE ALIE SUMMARY INPUTS (visible text fields)
   const hiddenIncome  = document.getElementById('alie_total_monthly_income');
   const hiddenExpend  = document.getElementById('alie_total_monthly_expenditure');
   const hiddenSurplus = document.getElementById('alie_monthly_surplus_deficit');
@@ -525,14 +526,14 @@ function recalc() {
   const hiddenLiabs   = document.getElementById('alie_total_liabilities');
   const hiddenNetWorth= document.getElementById('alie_net_worth');
 
-  if (hiddenIncome)  hiddenIncome.value  = incomeTotal.toFixed(2);
-  if (hiddenExpend)  hiddenExpend.value  = expTotal.toFixed(2);
-  if (hiddenSurplus) hiddenSurplus.value = (incomeTotal - expTotal).toFixed(2);
-  if (hiddenAssets)  hiddenAssets.value  = assetsTotal.toFixed(2);
-  if (hiddenLiabs)   hiddenLiabs.value   = liabTotal.toFixed(2);
-  if (hiddenNetWorth)hiddenNetWorth.value= (assetsTotal - liabTotal).toFixed(2);
+  if (hiddenIncome)   hiddenIncome.value   = incomeTotal.toFixed(2);
+  if (hiddenExpend)   hiddenExpend.value   = expTotal.toFixed(2);
+  if (hiddenSurplus)  hiddenSurplus.value  = (incomeTotal - expTotal).toFixed(2);
+  if (hiddenAssets)   hiddenAssets.value   = assetsTotal.toFixed(2);
+  if (hiddenLiabs)    hiddenLiabs.value    = liabTotal.toFixed(2);
+  if (hiddenNetWorth) hiddenNetWorth.value = (assetsTotal - liabTotal).toFixed(2);
 }
-    
+
 // Recalculate when number inputs change
 document.addEventListener('input', (e) => {
   if (e.target.matches('input[type="number"]')) recalc();
@@ -540,8 +541,28 @@ document.addEventListener('input', (e) => {
 
 // Initial calculation on load
 document.addEventListener('DOMContentLoaded', recalc);
-</script>
 
+// Send a copy of the ALIE data to Power Automate on submit (without blocking normal submit)
+document.getElementById('alieForm').addEventListener('submit', function () {
+  try {
+    const form = document.getElementById('alieForm');
+    const data = new FormData(form);
+    const obj = {};
+    data.forEach((value, key) => {
+      obj[key] = value;
+    });
+
+    fetch('PASTE_YOUR_POWER_AUTOMATE_HTTP_URL_HERE', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(obj)
+    }).catch(() => {});
+  } catch (e) {
+    // ignore errors - do not block submit
+  }
+});
+</script>
+<!-- END ALIE SCRIPT BLOCK -->
 <!-- HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/8402236.js"></script>
 <!-- End of HubSpot Embed Code -->
