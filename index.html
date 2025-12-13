@@ -532,7 +532,7 @@ function recalc() {
   if (hiddenLiabs)   hiddenLiabs.value   = liabTotal.toFixed(2);
   if (hiddenNetWorth)hiddenNetWorth.value= (assetsTotal - liabTotal).toFixed(2);
 }
-
+    
 // Recalculate when number inputs change
 document.addEventListener('input', (e) => {
   if (e.target.matches('input[type="number"]')) recalc();
@@ -540,11 +540,6 @@ document.addEventListener('input', (e) => {
 
 // Initial calculation on load
 document.addEventListener('DOMContentLoaded', recalc);
-
-// Ensure hidden fields are up-to-date on submit
-document.getElementById('alieForm').addEventListener('submit', function () {
-  recalc();
-});
 </script>
 
 <!-- HubSpot Embed Code -->
