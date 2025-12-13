@@ -96,22 +96,64 @@
     <div class="intro">Please complete this statement so we can assess affordability and structure funding appropriately.</div>
   </div>
 
-  <div class="form-panel">
-    <form
-      id="alieForm"
-      name="Magna ALIE"
-      method="POST"
-      action="https://magna-money-alie.vercel.app/thank-you-ALIE.html"
-      novalidate
-      autocomplete="on"
-    >
-      <!-- HIDDEN FIELDS FOR HUBSPOT ALIE SUMMARY PROPERTIES -->
-      <input type="hidden" id="alie_total_monthly_income"      name="alie_total_monthly_income"      value="">
-      <input type="hidden" id="alie_total_monthly_expenditure" name="alie_total_monthly_expenditure" value="">
-      <input type="hidden" id="alie_monthly_surplus_deficit"   name="alie_monthly_surplus_deficit"   value="">
-      <input type="hidden" id="alie_total_assets"              name="alie_total_assets"              value="">
-      <input type="hidden" id="alie_total_liabilities"         name="alie_total_liabilities"         value="">
-      <input type="hidden" id="alie_net_worth"                 name="alie_net_worth"                 value="">
+<form
+  id="alieForm"
+  name="Magna ALIE"
+  method="GET"
+  action="/thank-you-ALIE.html"
+  novalidate
+  autocomplete="on"
+>
+<!-- ALIE summary values as visible, read-only inputs so HubSpot can capture them -->
+<div style="display:none;">
+  <label>Total Monthly Income (ALIE)</label>
+  <input
+    id="alie_total_monthly_income"
+    name="alie_total_monthly_income"
+    type="text"
+    readonly
+  >
+
+  <label>Total Monthly Expenditure (ALIE)</label>
+  <input
+    id="alie_total_monthly_expenditure"
+    name="alie_total_monthly_expenditure"
+    type="text"
+    readonly
+  >
+
+  <label>Monthly Surplus / Deficit (ALIE)</label>
+  <input
+    id="alie_monthly_surplus_deficit"
+    name="alie_monthly_surplus_deficit"
+    type="text"
+    readonly
+  >
+
+  <label>Total Assets (ALIE)</label>
+  <input
+    id="alie_total_assets"
+    name="alie_total_assets"
+    type="text"
+    readonly
+  >
+
+  <label>Total Liabilities (ALIE)</label>
+  <input
+    id="alie_total_liabilities"
+    name="alie_total_liabilities"
+    type="text"
+    readonly
+  >
+
+  <label>Net Worth (ALIE)</label>
+  <input
+    id="alie_net_worth"
+    name="alie_net_worth"
+    type="text"
+    readonly
+  >
+</div>
             <!-- SECTION 1: Business & Banking -->
       <h3 class="section">Section 1: Business &amp; Banking</h3>
       <div class="row">
