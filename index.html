@@ -1,3 +1,4 @@
+<!-- index.html — v2: submits to Formspree and redirects to the repo thank-you page; removed Power Automate fetch -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -99,12 +100,12 @@
 <form
   id="alieForm"
   name="Magna ALIE"
-  method="GET"
-  action="/thank-you-ALIE.html"
+  method="POST"
+  action="https://formspree.io/f/manrzogp"
   novalidate
   autocomplete="on"
 >
-<!-- ALIE summary values as visible, read-only inputs so HubSpot can capture them -->
+<!-- ALIE summary values as visible, read-only inputs so Formspree captures them -->
 <div style="display:none;">
   <label>Total Monthly Income (ALIE)</label>
   <input
@@ -154,6 +155,11 @@
     readonly
   >
 </div>
+
+<!-- Formspree redirect to the repository thank-you page after successful submit -->
+<input type="hidden" name="_next" value="https://magna-money-alie.vercel.app/thank-you-ALIE.html">
+<!-- <input type="hidden" name="_captcha" value="false"> -->
+
             <!-- SECTION 1: Business & Banking -->
       <h3 class="section">Section 1: Business &amp; Banking</h3>
       <div class="row">
@@ -542,28 +548,21 @@ document.addEventListener('input', (e) => {
 // Initial calculation on load
 document.addEventListener('DOMContentLoaded', recalc);
 
-// Send a copy of the ALIE data to Power Automate on submit (without blocking normal submit)
-document.getElementById('alieForm').addEventListener('submit', function () {
+// Ensure hidden summary fields are up-to-date at submit, then allow normal POST to Formspree.
+// Formspree will capture all fields and then redirect to the _next URL above.
+document.getElementById('alieForm').addEventListener('submit', function (e) {
   try {
-    const form = document.getElementById('alieForm');
-    const data = new FormData(form);
-    const obj = {};
-    data.forEach((value, key) => {
-      obj[key] = value;
-    });
-
-    fetch('PASTE_YOUR_POWER_AUTOMATE_HTTP_URL_HERE', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(obj)
-    }).catch(() => {});
-  } catch (e) {
-    // ignore errors - do not block submit
+    // write latest values into hidden fields so Formspree receives them
+    recalc();
+    // do not call preventDefault() — allow browser to POST to Formspree,
+    // which will then redirect to the thank-you page specified by _next.
+  } catch (err) {
+    // ignore errors and proceed with submission
   }
 });
 </script>
 <!-- END ALIE SCRIPT BLOCK -->
-<!-- HubSpot Embed Code -->
+<!-- HubSpot Embed Code (left in place; does not interfere with submit redirect) -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/8402236.js"></script>
 <!-- End of HubSpot Embed Code -->
 
