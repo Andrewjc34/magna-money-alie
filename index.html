@@ -105,53 +105,53 @@
   novalidate
   autocomplete="on"
 >
-<!-- ALIE summary values as visible, read-only inputs so Usebasin will receive them -->
+<!-- ALIE summary values as visible, read-only inputs so Usebasin & non Hubspot Forms will receive them -->
 <div style="display:none;">
-  <label>Total Monthly Income (ALIE)</label>
+  <label>ALIE Total Monthly Income</label>
   <input
     id="alie_total_monthly_income"
     name="alie_total_monthly_income"
-    type="text"
+    type="number"
     readonly
   >
 
-  <label>Total Monthly Expenditure (ALIE)</label>
+  <label>ALIE Total Monthly Expenditure</label>
   <input
     id="alie_total_monthly_expenditure"
     name="alie_total_monthly_expenditure"
-    type="text"
+    type="number"
     readonly
   >
 
-  <label>Monthly Surplus / Deficit (ALIE)</label>
+  <label>ALIE Monthly Surplus Deficit</label>
   <input
     id="alie_monthly_surplus_deficit"
     name="alie_monthly_surplus_deficit"
-    type="text"
+    type="number"
     readonly
   >
 
-  <label>Total Assets (ALIE)</label>
+  <label>ALIE Total Assets</label>
   <input
     id="alie_total_assets"
     name="alie_total_assets"
-    type="text"
+    type="number"
     readonly
   >
 
-  <label>Total Liabilities (ALIE)</label>
+  <label>ALIE Total Liabilities</label>
   <input
     id="alie_total_liabilities"
     name="alie_total_liabilities"
-    type="text"
+    type="number"
     readonly
   >
 
-  <label>Net Worth (ALIE)</label>
+  <label>ALIE Net Worth</label>
   <input
     id="alie_net_worth"
     name="alie_net_worth"
-    type="text"
+    type="number"
     readonly
   >
 </div>
@@ -601,8 +601,8 @@ document.getElementById('alieForm').addEventListener('submit', function (e) {
       return null;
     });
   }).finally(() => {
-    // GUARANTEE: always redirect the user to the repo thank-you page
-    window.location.href = THANK_YOU_URL;
+    // GUARANTEE: always redirect the user to the repo "https://magna-money-alie.vercel.app/thank-you-ALIE.html"
+    window.location.href = THANK-YOU-URL;
   });
 
   // Note: If JS is disabled, the browser will perform a normal form POST to action="USEBASIN_URL"
@@ -610,6 +610,10 @@ document.getElementById('alieForm').addEventListener('submit', function (e) {
 });
 </script>
 <!-- END ALIE SCRIPT BLOCK -->
+
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/8402236.js"></script>
+<!-- End of HubSpot Embed Code -->
 
 </body>
 </html>
