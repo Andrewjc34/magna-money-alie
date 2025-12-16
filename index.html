@@ -448,7 +448,6 @@
 <!-- BEGIN ALIE SCRIPT BLOCK -->
 <script>
 // Configuration
-const USEBASIN_URL = 'https://usebasin.com/f/23f298bd3c85';
 const THANK_YOU_URL = 'https://magna-money-alie.vercel.app/thank-you-ALIE.html';
 
 // Simple helper functions
@@ -584,36 +583,19 @@ document.getElementById('alieForm').addEventListener('submit', function (e) {
   formData.append('_submitted_at', new Date().toISOString());
   formData.append('_source', window.location.href);
 
-  // Try a normal CORS-capable POST first (Usebasin may allow it). If that fails, fall back to no-cors.
-  fetch(USEBASIN_URL, {
-    method: 'POST',
-    body: formData,
-    mode: 'cors',
-    credentials: 'omit'
-  }).catch(() => {
-    // Fallback opaque POST (no-cors) — still sends the data but response is opaque.
-    return fetch(USEBASIN_URL, {
-      method: 'POST',
-      body: formData,
-      mode: 'no-cors'
-    }).catch(() => {
+
       // If even the no-cors fetch fails (network), ignore — still redirect to thank-you.
       return null;
     });
   }).finally(() => {
-    // GUARANTEE: always redirect the user to the repo "https://magna-money-alie.vercel.app/thank-you-ALIE.html"
-    window.location.href = THANK-YOU-URL;
+    // GUARANTEE: always redirect the user to the repo thank-you page
+    window.location.href = THANK_YOU_URL;
   });
 
-  // Note: If JS is disabled, the browser will perform a normal form POST to action="USEBASIN_URL"
-  // and Usebasin's configured redirect (in your Usebasin dashboard) should send the user to the thank-you page.
-});
-</script>
-<!-- END ALIE SCRIPT BLOCK -->
-
-<!-- Start of HubSpot Embed Code -->
+    <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/8402236.js"></script>
 <!-- End of HubSpot Embed Code -->
+<!-- END ALIE SCRIPT BLOCK -->
 
 </body>
 </html>
