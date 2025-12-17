@@ -102,7 +102,7 @@
       class="alie-form"
       name="#ALIE form"
       method="POST"
-      action="/thank-you-ALIE.html"
+      action="https://magna-money-alie.vercel.app/"
       novalidate
       autocomplete="on"
     >
@@ -608,12 +608,15 @@ document.addEventListener('input', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   recalc();
 
-  // Attach submit handler just to refresh totals before POST
+  // Attach submit handler: just refresh totals, then let browser POST and redirect
   const form = document.getElementById('alie-form');
   if (form) {
     form.addEventListener('submit', function () {
       try { recalc(); } catch (err) {}
-      // No preventDefault, no manual redirect – let the browser POST to /thank-you-ALIE.html
+      // Allow normal POST, then move to thank-you page shortly after
+      setTimeout(() => {
+        window.location.href = THANK_YOU_URL;
+      }, 400);
     });
   }
 });
