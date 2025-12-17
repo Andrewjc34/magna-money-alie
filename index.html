@@ -97,66 +97,66 @@
   </div>
 
   <div class="form-panel">
-<form
-  id="alieForm"
-  name="Magna ALIE"
-  method="POST"
-  action="https://usebasin.com/f/23f298bd3c85"
-  novalidate
-  autocomplete="on"
->
-<!-- ALIE summary values as visible, read-only inputs so Usebasin & non Hubspot Forms will receive them -->
-<div style="display:none;">
-  <label>ALIE Total Monthly Income</label>
-  <input
-    id="alie_total_monthly_income"
-    name="alie_total_monthly_income"
-    type="number"
-    readonly
-  >
+    <form
+      id="alieForm"
+      name="Magna ALIE"
+      method="POST"
+      action=""
+      novalidate
+      autocomplete="on"
+    >
+      <!-- ALIE summary values as visible, read-only inputs so non-HubSpot Forms will receive them -->
+      <div style="display:none;">
+        <label>ALIE Total Monthly Income</label>
+        <input
+          id="alie_total_monthly_income"
+          name="alie_total_monthly_income"
+          type="number"
+          readonly
+        >
 
-  <label>ALIE Total Monthly Expenditure</label>
-  <input
-    id="alie_total_monthly_expenditure"
-    name="alie_total_monthly_expenditure"
-    type="number"
-    readonly
-  >
+        <label>ALIE Total Monthly Expenditure</label>
+        <input
+          id="alie_total_monthly_expenditure"
+          name="alie_total_monthly_expenditure"
+          type="number"
+          readonly
+        >
 
-  <label>ALIE Monthly Surplus Deficit</label>
-  <input
-    id="alie_monthly_surplus_deficit"
-    name="alie_monthly_surplus_deficit"
-    type="number"
-    readonly
-  >
+        <label>ALIE Monthly Surplus Deficit</label>
+        <input
+          id="alie_monthly_surplus_deficit"
+          name="alie_monthly_surplus_deficit"
+          type="number"
+          readonly
+        >
 
-  <label>ALIE Total Assets</label>
-  <input
-    id="alie_total_assets"
-    name="alie_total_assets"
-    type="number"
-    readonly
-  >
+        <label>ALIE Total Assets</label>
+        <input
+          id="alie_total_assets"
+          name="alie_total_assets"
+          type="number"
+          readonly
+        >
 
-  <label>ALIE Total Liabilities</label>
-  <input
-    id="alie_total_liabilities"
-    name="alie_total_liabilities"
-    type="number"
-    readonly
-  >
+        <label>ALIE Total Liabilities</label>
+        <input
+          id="alie_total_liabilities"
+          name="alie_total_liabilities"
+          type="number"
+          readonly
+        >
 
-  <label>ALIE Net Worth</label>
-  <input
-    id="alie_net_worth"
-    name="alie_net_worth"
-    type="number"
-    readonly
-  >
-</div>
+        <label>ALIE Net Worth</label>
+        <input
+          id="alie_net_worth"
+          name="alie_net_worth"
+          type="number"
+          readonly
+        >
+      </div>
 
-            <!-- SECTION 1: Business & Banking -->
+      <!-- SECTION 1: Business & Banking -->
       <h3 class="section">Section 1: Business &amp; Banking</h3>
       <div class="row">
         <div class="col field">
@@ -325,7 +325,8 @@
       <div class="summary">
         <span class="pill">Total Property Value (from above): <strong id="propTotal">£0.00</strong></span>
       </div>
-            <hr class="div">
+
+      <hr class="div">
       <!-- SECTION 5: Assets & Investments -->
       <h3 class="section">Section 5: Assets &amp; Investments</h3>
       <div class="grid-3">
@@ -460,7 +461,7 @@ const val = (id) => {
 
 const fmt = (n) => '£' + (n || 0).toFixed(2);
 
-// Recalculate summaries (keeps same logic as before)
+// Recalculate summaries
 function recalc() {
   const incDraw = val('incDrawings');
   const incSp = val('incSpouse');
@@ -565,37 +566,30 @@ document.addEventListener('input', (e) => {
 });
 
 // Initial calculation on load
-document.addEventListener('DOMContentLoaded', recalc);
+document.addEventListener('DOMContentLoaded', () => {
+  recalc();
 
-// Submit handler:
-// - ensures recalc() is run right before submit so hidden summary fields are current
-// - attempts to send form to Usebasin using fetch (tries CORS, falls back to no-cors)
-// - guarantees the client is redirected to the repository thank-you page
-document.getElementById('alieForm').addEventListener('submit', function (e) {
-  e.preventDefault(); // we will handle sending and redirect to guarantee the thank-you page
+  // Attach submit handler for redirect
+  const form = document.getElementById('alieForm');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      // Run recalc so hidden summary fields are up to date for HubSpot capture
+      try { recalc(); } catch (err) {}
 
-  try { recalc(); } catch (err) { /* ignore */ }
-
-  const form = e.target;
-  const formData = new FormData(form);
-
-  // Add optional metadata
-  formData.append('_submitted_at', new Date().toISOString());
-  formData.append('_source', window.location.href);
-
-
-      // If even the no-cors fetch fails (network), ignore — still redirect to thank-you.
-      return null;
+      // Allow the form to submit normally so HubSpot non-HubSpot forms can capture it
+      // Then redirect to the thank-you page after a short delay
+      setTimeout(() => {
+        window.location.href = THANK_YOU_URL;
+      }, 200);
     });
-  }).finally(() => {
-    // GUARANTEE: always redirect the user to the repo thank-you page
-    window.location.href = THANK_YOU_URL;
-  });
+  }
+});
+</script>
+<!-- END ALIE SCRIPT BLOCK -->
 
-    <!-- Start of HubSpot Embed Code -->
+<!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/8402236.js"></script>
 <!-- End of HubSpot Embed Code -->
-<!-- END ALIE SCRIPT BLOCK -->
 
 </body>
 </html>
