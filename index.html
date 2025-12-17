@@ -98,8 +98,9 @@
 
   <div class="form-panel">
     <form
-      id="alieForm"
-      name="Magna ALIE"
+      id="alie-form"
+      class="alie-form"
+      name="#ALIE form"
       method="POST"
       action=""
       novalidate
@@ -234,8 +235,8 @@
         <input id="expLoansHP" name="Expenditure - Loans/HP Commitments (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
       </div>
       <div class="field line">
-        <label for="expCreditCards">Credit/store cards</label>
-        <input id="expCreditCards" name="Expenditure - Credit/Store Cards (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
+        <label for="expCreditCards">Payment/store cards</label>
+        <input id="expCreditCards" name="Expenditure - Payment/Store Cards (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
       </div>
       <div class="summary">
         <span class="pill">Expenditure subtotal (A): <strong id="expSubtotalA">£0.00</strong></span>
@@ -381,16 +382,16 @@
           <input id="liabOtherLoans" name="Liability - Other Loans (£)" type="number" step="0.01" min="0" placeholder="0.00" class="right">
         </div>
         <div class="field">
-          <label for="creditCardHeld">Credit card held</label>
-          <select id="creditCardHeld" name="Credit card held (Y/N)">
+          <label for="creditCardHeld">Payment card held</label>
+          <select id="creditCardHeld" name="Payment card held (Y/N)">
             <option value="">Please choose…</option>
             <option>Y</option>
             <option>N</option>
           </select>
         </div>
         <div class="field">
-          <label for="otherStoreCards">Other credit/store cards</label>
-          <select id="otherStoreCards" name="Other credit/store cards (Y/N)">
+          <label for="otherStoreCards">Other payment/store cards</label>
+          <select id="otherStoreCards" name="Other payment/store cards (Y/N)">
             <option value="">Please choose…</option>
             <option>Y</option>
             <option>N</option>
@@ -437,6 +438,44 @@
         <span class="pill">Total Assets: <strong id="sumAssets">£0.00</strong></span>
         <span class="pill">Total Liabilities: <strong id="sumLiabs">£0.00</strong></span>
         <span class="pill">Net Worth (Assets − Liabilities): <strong id="sumNetWorth">£0.00</strong></span>
+      </div>
+
+      <!-- Data Protection & Consent -->
+      <h3 class="section">Data Protection &amp; Consent</h3>
+      <div class="gdpr">
+        By submitting this form, you confirm that:<br><br>
+        • You consent to Magna Money collecting and processing your personal and household financial information for the purpose of assessing affordability and your finance requirements.<br>
+        • You acknowledge that Magna Money may carry out publicly accessible checks such as Companies House searches, business credit profile reviews, and director information validation where relevant.<br>
+        • You understand that separate consent may be requested where individual or business credit checks are required.<br>
+        • You understand that Magna Money processes your information under its legitimate business interest to arrange commercial finance, liaise with lenders, and maintain appropriate records.<br>
+        • You confirm that all information provided is accurate to the best of your knowledge and may be relied upon by prospective lenders.
+      </div>
+
+      <div class="gdpr">
+        <strong>Your Rights</strong><br>
+        You may request access, correction, deletion, restriction, objection, or transfer of your data at any time. For full details, please refer to Magna Money’s Privacy Notice on our website.
+      </div>
+
+      <div class="gdpr">
+        <strong>Regulatory Status</strong><br>
+        Magna Money is an independent commercial finance broker and not a lender. We are not authorised or regulated by the Financial Conduct Authority (FCA). All finance is subject to status and lender acceptance. Information provided on this form is for enquiry and assessment purposes only.
+      </div>
+
+      <!-- Marketing consent checkbox -->
+      <div class="field" style="margin-top:10px;">
+        <label>
+          <input type="checkbox" name="marketing_opt_in" value="yes" style="width:auto; margin-right:8px;">
+          I would like to receive marketing communications from Magna Money. (You can unsubscribe at any time.)
+        </label>
+      </div>
+
+      <div class="gdpr" style="margin-top:10px;">
+        For full details, please see our
+        <a href="https://www.magnamoney.co.uk/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:#C6A76B;">
+          Privacy Policy
+        </a>.
+        If you no longer wish to receive emails from us, you can update your communication preferences or
+        unsubscribe using the links included at the bottom of our emails.
       </div>
 
       <div class="submit-row">
@@ -570,9 +609,9 @@ document.addEventListener('DOMContentLoaded', () => {
   recalc();
 
   // Attach submit handler for redirect
-  const form = document.getElementById('alieForm');
+  const form = document.getElementById('alie-form');
   if (form) {
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', function () {
       // Run recalc so hidden summary fields are up to date for HubSpot capture
       try { recalc(); } catch (err) {}
 
