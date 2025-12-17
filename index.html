@@ -102,7 +102,7 @@
       class="alie-form"
       name="#ALIE form"
       method="POST"
-      action=""
+      action="/thank-you-ALIE.html"
       novalidate
       autocomplete="on"
     >
@@ -608,18 +608,12 @@ document.addEventListener('input', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   recalc();
 
-  // Attach submit handler for redirect
+  // Attach submit handler just to refresh totals before POST
   const form = document.getElementById('alie-form');
   if (form) {
     form.addEventListener('submit', function () {
-      // Run recalc so hidden summary fields are up to date for HubSpot capture
       try { recalc(); } catch (err) {}
-
-      // Allow the form to submit normally so HubSpot non-HubSpot forms can capture it
-      // Then redirect to the thank-you page after a short delay
-      setTimeout(() => {
-        window.location.href = THANK_YOU_URL;
-      }, 200);
+      // No preventDefault, no manual redirect – let the browser POST to /thank-you-ALIE.html
     });
   }
 });
