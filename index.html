@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -608,15 +609,15 @@ document.addEventListener('input', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   recalc();
 
-  // Attach submit handler: just refresh totals, then let browser POST and redirect
+  // Attach submit handler: intercept, refresh totals, delay for HubSpot capture, then redirect
   const form = document.getElementById('alie-form');
   if (form) {
-    form.addEventListener('submit', function () {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
       try { recalc(); } catch (err) {}
-      // Allow normal POST, then move to thank-you page shortly after
       setTimeout(() => {
         window.location.href = THANK_YOU_URL;
-      }, 400);
+      }, 1000); // 1 second delay
     });
   }
 });
